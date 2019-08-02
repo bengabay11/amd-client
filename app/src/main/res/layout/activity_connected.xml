@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true" android:focusableInTouchMode="true"
+    tools:context="com.example.user.testapp.Connected">
+
+            <TextView
+                android:id="@+id/Title"
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="50dp"
+                android:gravity="center_horizontal"
+                android:textSize="40sp"/>
+
+            <!--Home Page Views:-->
+            <TextView
+                android:id="@+id/hello_user_text"
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="190dp"
+                android:gravity="center_horizontal"
+                android:text="@string/introducory_connected"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:id="@+id/secure_image"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="290sp"
+                android:src="@drawable/secure" />
+
+            <!--notifications views-->
+            <TextView
+                android:id="@+id/notifications_title"
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center_horizontal"
+                android:text="Notifications"
+                android:visibility="gone"
+                android:textSize="40sp"/>
+
+                <Button
+                    android:id="@+id/clear_notification_button"
+                    android:textColor="@color/White"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="125dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Clear"
+                    android:background="#1A237E"
+                    android:onClick="onClearNotifications"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="180dp"
+                android:layout_marginBottom="80dp"
+                android:fillViewport="true">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1">
+
+                    <TextView
+                        android:id="@+id/notifications"
+                        android:textColor="#000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="30dp"
+                        android:textSize="15sp"
+                        android:visibility="gone"/>
+
+                </TableLayout>
+            </ScrollView>
+
+            <!--settings views-->
+            <ImageButton
+                android:id="@+id/help_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@mipmap/ic_help_black_24dp"
+                android:visibility="gone"
+                android:onClick="onHelp"/>
+
+            <Button
+                android:id="@+id/change_username_button"
+                android:textColor="@color/White"
+                android:layout_width="320dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:layout_marginTop="190dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/change_username"
+                android:background="#1A237E"
+                android:ems="15"
+                android:onClick="onChangeUsername"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:drawableEnd="@drawable/change_user_icon"/>
+
+            <Button
+                android:id="@+id/change_password_button"
+                android:textColor="@color/White"
+                android:visibility="gone"
+                android:layout_width="320dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="260dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/change_password"
+                android:background="#1A237E"
+                android:ems="15"
+                android:onClick="onChangePassword"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:drawableEnd="@drawable/change_password_icon"/>
+
+            <Button
+                android:id="@+id/change_email_button"
+                android:layout_width="320dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:layout_marginTop="330dp"
+                android:layout_centerHorizontal="true"
+                android:text="Change Email"
+                android:background="#1A237E"
+                android:ems="15"
+                android:textColor="@color/White"
+                android:onClick="onChangeEmail"
+                android:drawableEnd="@drawable/email"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/get_notifications_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="420dp"
+                android:layout_marginLeft="40dp"
+                android:text="get notifications"
+                android:visibility="gone"
+                android:textColor="#000000"
+                android:textSize="25sp"/>
+
+            <Switch
+                android:id="@+id/notifications_switch"
+                android:visibility="gone"
+                android:layout_marginTop="425dp"
+                android:layout_marginLeft="280dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+
+            <Button
+                android:id="@+id/delete_user"
+                android:textColor="@color/White"
+                android:visibility="gone"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="480dp"
+                android:text="@string/delete_user"
+                android:background="#1A237E"
+                android:layout_marginLeft="200dp"
+                android:gravity="right"
+                android:onClick="onDeleteUser"
+                android:textSize="15sp"
+                android:ems="15"
+                android:drawableEnd="@drawable/delete"/>
+
+            <Button
+                android:id="@+id/log_out_button"
+                android:visibility="gone"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="480dp"
+                android:text="@string/log_out"
+                android:background="#1A237E"
+                android:onClick="onLogOut"
+                android:textSize="15sp"
+                android:ems="15"
+                android:textColor="@color/White"
+                android:drawableEnd="@drawable/exit"/>
+
+            <!--common views of many options in settings-->
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="500dp"
+                android:text="@string/back_to_settings"
+                android:background="@null"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:textSize="17sp"
+                android:onClick="backSettings"/>
+
+            <!--help views-->
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/help_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="110dp"
+                android:layout_marginBottom="120dp"
+                android:visibility="gone"
+                android:fillViewport="true">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1">
+
+                    <TextView
+                        android:id="@+id/help_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                        android:text="@string/help_message"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
+
+                </TableLayout>
+            </ScrollView>
+
+            <!--change username views-->
+            <EditText
+                android:id="@+id/new_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:textSize="28sp"
+                android:visibility="gone"
+                android:hint="New Username"/>
+
+            <Button
+                android:id="@+id/cross_x_button_new_username"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="220dp"
+                android:layout_alignEnd="@id/new_username"
+                android:onClick="resetUsernameText"
+                android:visibility="gone"
+                android:background="@drawable/cross_x3" />
+
+            <Button
+                android:id="@+id/change_button"
+                android:layout_width="320dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="280dp"
+                android:layout_centerHorizontal="true"
+                android:text="Change Username"
+                android:background="#1A237E"
+                android:ems="15"
+                android:textColor="@color/White"
+                android:onClick="onChangeUsernameButton"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:drawableEnd="@drawable/change_user_icon"/>
+
+            <!--change password views-->
+            <EditText
+                android:id="@+id/old_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:visibility="gone"
+                android:textSize="28sp"
+                android:hint="Old Password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/cross_x_button_old_password"
+                android:layout_width="30dp"
+                android:visibility="gone"
+                android:layout_height="30dp"
+                android:layout_marginTop="210dp"
+                android:layout_alignEnd="@id/old_password"
+                android:onClick="resetOldPasswordText"
+                android:background="@drawable/cross_x3" />
+
+            <EditText
+                android:id="@+id/new_password"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="260dp"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:textSize="28sp"
+                android:hint="New Password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/cross_x_button_new_password"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="gone"
+                android:layout_marginTop="275dp"
+                android:layout_alignEnd="@id/new_password"
+                android:onClick="resetPasswordText"
+                android:background="@drawable/cross_x3" />
+
+            <EditText
+                android:id="@+id/confirm_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="320dp"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:textSize="28sp"
+                android:hint="Confirm Password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/cross_x_button_confirm_password"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="335dp"
+                android:visibility="gone"
+                android:layout_alignEnd="@id/confirm_password"
+                android:onClick="resetConfirmPasswordText"
+                android:background="@drawable/cross_x3" />
+
+            <Button
+                android:id="@+id/change_password_button2"
+                android:layout_width="320dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="410dp"
+                android:layout_centerHorizontal="true"
+                android:text="Change Password"
+                android:visibility="gone"
+                android:background="#1A237E"
+                android:ems="15"
+                android:textColor="@color/White"
+                android:onClick="onChangePasswordButton"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:drawableEnd="@drawable/change_password_icon"/>
+
+            <!--change email views-->
+            <EditText
+                android:id="@+id/new_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:textSize="28sp"
+                android:visibility="gone"
+                android:hint="New Email"
+                android:inputType="textEmailAddress" />
+
+            <Button
+                android:id="@+id/cross_x_button_new_email"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="215dp"
+                android:layout_alignEnd="@id/new_email"
+                android:onClick="resetNewEmailText"
+                android:visibility="gone"
+                android:background="@drawable/cross_x3" />
+
+            <Button
+                android:id="@+id/change_email_button2"
+                android:layout_width="320dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="280dp"
+                android:layout_centerHorizontal="true"
+                android:text="Change Email"
+                android:background="#1A237E"
+                android:ems="15"
+                android:textColor="@color/White"
+                android:onClick="onChangeEmailButton"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:drawableEnd="@drawable/email"/>
+
+    <!--bottom bar-->
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="560dp"
+        android:layout_gravity="bottom" />
+    <!--android:layout_marginTop="615dp" - for the emulator-->
+
+</RelativeLayout>

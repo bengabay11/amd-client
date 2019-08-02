@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true" android:focusableInTouchMode="true"
+    tools:context="com.example.user.testapp.ForgotPassword">
+
+    <TextView
+        android:id="@+id/introductory_message_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:text="@string/join_amd"/>
+
+    <TextView
+        android:id="@+id/introductory_message_sign_up2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/introductory_message_sign_up"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:text="@string/introductory_message_sign_upenter_new_username_and_password_to_create_a_new_amd_account"/>
+
+    <EditText
+        android:id="@+id/edit_text_username_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:textSize="30sp"
+        android:hint="@string/edit_text_username_info"/>
+
+    <Button
+        android:id="@+id/cross_x_button1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="220dp"
+        android:layout_alignEnd="@id/edit_text_username_sign_up"
+        android:onClick="resetUsernameText"
+        android:visibility="gone"
+        android:background="@drawable/cross_x3" />
+
+    <EditText
+        android:id="@+id/edit_text_password_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_username_sign_up"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:textSize="30sp"
+        android:hint="@string/edit_text_password_info"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/cross_x_button2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="275dp"
+        android:layout_alignEnd="@id/edit_text_password_sign_up"
+        android:onClick="resetPasswordText"
+        android:visibility="gone"
+        android:background="@drawable/cross_x3" />
+
+
+    <EditText
+        android:id="@+id/edit_text_confirm_password_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_password_sign_up"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:textSize="30sp"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/cross_x_button3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="335dp"
+        android:layout_alignEnd="@id/edit_text_confirm_password_sign_up"
+        android:onClick="resetConfirmPasswordText"
+        android:visibility="gone"
+        android:background="@drawable/cross_x3" />
+
+    <EditText
+        android:id="@+id/edit_text_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_confirm_password_sign_up"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textSize="30sp"
+        android:hint="@string/email" />
+
+    <Button
+        android:id="@+id/cross_x_button4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="390dp"
+        android:layout_alignEnd="@id/edit_text_email"
+        android:onClick="resetEmailText"
+        android:visibility="gone"
+        android:background="@drawable/cross_x3" />
+
+    <Button
+        android:id="@+id/sign_up_button"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="470dp"
+        android:ems="15"
+        android:textSize="20sp"
+        android:background="#1A237E"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/White"
+        android:text="@string/create_amd_account"
+        android:onClick="OnSignUp"/>
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="550dp"
+        android:text="@string/back"
+        android:background="@null"
+        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        android:onClick="backLogin"/>
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true" android:focusableInTouchMode="true"
+    tools:context="com.example.user.testapp.ForgotPassword">
+
+    <ProgressBar
+        android:layout_marginTop="180dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:layout_marginTop="260dp"
+        android:textColor="#000000"
+        android:gravity="center_horizontal"
+        android:text="Loading..."
+        android:textSize="35sp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/explanation_message"
+        android:layout_marginTop="450dp"
+        android:textColor="#000000"
+        android:gravity="center_horizontal"
+        android:text="The server is performing several tests"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/explanation_message2"
+        android:layout_marginTop="480dp"
+        android:textColor="#000000"
+        android:gravity="center_horizontal"
+        android:text="on your device. please wait."
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

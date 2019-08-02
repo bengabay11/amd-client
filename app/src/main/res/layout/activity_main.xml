@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true" android:focusableInTouchMode="true"
+    tools:context="com.example.user.testapp.MainActivity">
+
+    <TextView
+        android:id="@+id/edit_text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:ems="5"
+        android:textSize="60sp"
+        android:textColor="#000000"
+        android:text="@string/app_name"/>
+
+    <EditText
+        android:id="@+id/edit_text_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:textSize="30sp"
+        android:hint="@string/edit_text_username_info"/>
+
+    <Button
+        android:id="@+id/cross_x_button1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="215dp"
+        android:layout_alignEnd="@id/edit_text_username"
+        android:onClick="resetUsernameText"
+        android:visibility="gone"
+        android:background="@drawable/cross_x3" />
+
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_username"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:textSize="30sp"
+        android:hint="@string/edit_text_password_info" />
+
+    <Button
+        android:id="@+id/cross_x_button2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="270dp"
+        android:layout_alignEnd="@id/edit_text_password"
+        android:onClick="resetPasswordText"
+        android:visibility="gone"
+        android:background="@drawable/cross_x3" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="350dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/log_in_button"
+        android:background="#1A237E"
+        android:ems="15"
+        android:textColor="@color/White"
+        android:onClick="onLogin"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:drawableRight="@drawable/login"/>
+
+
+    <Button
+        android:id="@+id/forgot_password_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:text="@string/forgot_password_button"
+        android:background="@null"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onForgotPassword" />
+
+    <TextView
+        android:id="@+id/text_view_or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="515dp"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/text_view_or"
+        android:textColor="#000000"/>
+
+    <Button
+        android:id="@+id/sign_up_button1"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="560dp"
+        android:ems="15"
+        android:textSize="25sp"
+        android:background="#1A237E"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:onClick="onSignUp"
+        android:text="@string/sign_up"
+        android:textColor="@color/White"
+        android:drawableRight="@drawable/sign_up_icon"/>
+
+</RelativeLayout>
