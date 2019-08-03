@@ -14,7 +14,8 @@ import com.example.user.amd.handlers.ButtonVisibilityHandler;
 import com.example.user.amd.tasks.SocketTask;
 import com.example.user.amd.watchers.EmptyTextWatcher;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static com.example.user.amd.tasks.SocketTask.USERNAME_KEY;
 
@@ -54,11 +55,7 @@ public class ForgotPasswordActivity extends AppCompatActivity
             findPasswordButton.setTextColor(Color.parseColor("#808080"));
         }
 
-        ArrayList<EditText> editTexts = new ArrayList<EditText>() {
-            {
-                add(editTextUsername);
-            }
-        };
+        List<EditText> editTexts = Collections.singletonList(editTextUsername);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, findPasswordButton);
         editTextUsername.addTextChangedListener(emptyTextWatcher);
 

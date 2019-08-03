@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,8 @@ import com.example.user.amd.handlers.ButtonVisibilityHandler;
 import com.example.user.amd.tasks.SocketTask;
 import com.example.user.amd.watchers.EmptyTextWatcher;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -59,14 +59,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setEnabled(false);
         signUpButton.setTextColor(Color.parseColor("#808080"));
 
-        ArrayList<EditText> editTexts = new ArrayList<EditText>() {
-            {
-                add(editTextUsername);
-                add(editTextPassword);
-                add(editTextConfirmPassword);
-                add(editTextEmail);
-            }
-        };
+        List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword,
+                editTextConfirmPassword, editTextEmail);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, signUpButton);
         editTextUsername.addTextChangedListener(emptyTextWatcher);
         editTextPassword.addTextChangedListener(emptyTextWatcher);

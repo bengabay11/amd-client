@@ -14,7 +14,8 @@ import com.example.user.amd.tasks.SocketTask;
 import com.example.user.amd.watchers.EmptyTextWatcher;
 
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.example.user.amd.tasks.SocketTask.USERNAME_KEY;
 
@@ -47,12 +48,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initUI()
     {
-        ArrayList<EditText> editTexts = new ArrayList<EditText>() {
-            {
-                add(editTextUsername);
-                add(editTextPassword);
-            }
-        };
+        List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, loginButton);
         editTextUsername.addTextChangedListener(emptyTextWatcher);
         editTextPassword.addTextChangedListener(emptyTextWatcher);

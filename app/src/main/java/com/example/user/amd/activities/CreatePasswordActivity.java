@@ -15,7 +15,8 @@ import com.example.user.amd.handlers.ButtonVisibilityHandler;
 import com.example.user.amd.tasks.SocketTask;
 import com.example.user.amd.watchers.EmptyTextWatcher;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class CreatePasswordActivity extends AppCompatActivity {
@@ -47,13 +48,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
         createPasswordButton.setTextColor(Color.parseColor("#808080"));
         createPasswordButton.setEnabled(false);
 
-        ArrayList<EditText> editTexts = new ArrayList<EditText>() {
-            {
-                add(editTextPassword);
-                add(editTextConfirmPassword);
-
-            }
-        };
+        List<EditText> editTexts = Arrays.asList(editTextPassword, editTextConfirmPassword);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, createPasswordButton);
         editTextPassword.addTextChangedListener(emptyTextWatcher);
         editTextConfirmPassword.addTextChangedListener(emptyTextWatcher);
