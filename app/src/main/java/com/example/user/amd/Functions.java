@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import android.app.Activity;
 import android.content.DialogInterface;

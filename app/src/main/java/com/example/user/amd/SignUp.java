@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import android.content.Intent;
 import android.graphics.Color;

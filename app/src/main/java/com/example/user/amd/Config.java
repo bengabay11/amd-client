@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import android.text.TextUtils;
 import java.util.Collections;

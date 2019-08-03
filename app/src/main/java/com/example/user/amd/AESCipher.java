@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;

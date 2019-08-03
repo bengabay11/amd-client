@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +18,7 @@ import java.io.*;
 // The activity that the application runs when it starts.
 public class MainActivity extends AppCompatActivity
 {
-    public static final String USERNAME_KEY = "com.example.user.testapp.USERNAME";
+    public static final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
     private static boolean runOnce = true;
     private EditText editTextUsername;
     private EditText editTextPassword;

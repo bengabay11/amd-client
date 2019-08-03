@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;

@@ -1,4 +1,4 @@
-package com.example.user.testapp;
+package com.example.user.amd;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 // Thread that incarge of all the communication with the server.
 class SocketTask extends AsyncTask<String,String ,String >
 {
-    static final String USERNAME_KEY = "com.example.user.testapp.USERNAME";
+    static final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
     private String dataToSend = "";
     private String response = "";
     private Activity currentActivity;
@@ -201,7 +201,7 @@ class SocketTask extends AsyncTask<String,String ,String >
         // Check if there is any socket error.
         if(socketError && !dataToSend.startsWith("LogOut"))
         {
-            if(currentActivity.getClass().getName().equals("com.example.user.testapp.Connected"))
+            if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.Connected"))
                 unknownSources.finish();
             finish = true;
             AlertDialog.Builder builder = Functions.onCreateDialog("Connection Error", "The AMD" +
@@ -375,7 +375,7 @@ class SocketTask extends AsyncTask<String,String ,String >
                         }
                     }
                     if (currentResponse.equals("Logout Successfully") || currentResponse.equals("Delete Complete")) {
-                        if(currentActivity.getClass().getName().equals("com.example.user.testapp.Connected"))
+                        if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.Connected"))
                             unknownSources.finish();
 
                         finish = true;
