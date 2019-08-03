@@ -15,8 +15,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 
-public class Utils
-{
+public class Utils {
     public static void sleep(int seconds){
         try {
             TimeUnit.SECONDS.sleep(seconds);
