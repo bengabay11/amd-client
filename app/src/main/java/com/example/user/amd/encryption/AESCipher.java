@@ -22,8 +22,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
 
-
-public class AESCipher {
+public class AESCipher implements com.example.user.amd.interfaces.Cipher {
     private String key;
     private byte[] keyBytes;
 
@@ -40,23 +39,25 @@ public class AESCipher {
         random.nextBytes(AESCipher.ivBytes);
     }
 
-    public String encrypt_string(final String plain) throws InvalidKeyException, NoSuchAlgorithmException,
+    @Override
+    public String encrypt(final String plain) throws InvalidKeyException, NoSuchAlgorithmException,
             NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException
     {
-        return Base64.encodeToString(encrypt(plain.getBytes()), Base64.DEFAULT);
+        return Base64.encodeToString(this.encryptBytes(plain.getBytes()), Base64.DEFAULT);
     }
 
+    @Override
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public String decrypt_string(final String plain) throws InvalidKeyException,
+    public String decrypt(final String plain) throws InvalidKeyException,
             NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
             IllegalBlockSizeException, BadPaddingException
     {
-        byte[] encryptedBytes = decrypt(Base64.decode(plain, 0));
+        byte[] encryptedBytes = this.decryptBytes(Base64.decode(plain, 0));
         return new String(encryptedBytes);
 
     }
 
-    private byte[] encrypt(byte[] mes) throws NoSuchAlgorithmException, NoSuchPaddingException,
+    private byte[] encryptBytes(byte[] mes) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
         String characterEncoding = "UTF-8";
         keyBytes = key.getBytes(characterEncoding);
@@ -80,7 +81,7 @@ public class AESCipher {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private byte[] decrypt(byte[] bytes) throws NoSuchAlgorithmException, NoSuchPaddingException,
+    private byte[] decryptBytes(byte[] bytes) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
             BadPaddingException {
         keyBytes = key.getBytes(StandardCharsets.UTF_8);
