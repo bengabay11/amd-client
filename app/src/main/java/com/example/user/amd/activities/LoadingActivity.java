@@ -1,7 +1,11 @@
-package com.example.user.amd;
+package com.example.user.amd.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.user.amd.R;
+import com.example.user.amd.scanners.SuspiciousApps;
+import com.example.user.amd.tasks.SocketTask;
 
 
 // The activity present loading page until all the relevant data will send to the server.

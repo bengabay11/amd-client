@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Utils;
+import com.example.user.amd.R;
+import com.example.user.amd.tasks.SocketTask;
+
 import java.io.*;
 
 
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity
     private EditText editTextPassword;
     static String username;
     static String password;
-    static SocketTask socketTask;
+    public static SocketTask socketTask;
     private Button crossXButtonUsername;
     private Button crossXButtonPassword;
     private Button loginButton;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     // The function also take care of the buttons visibility in the UI.
     private void handleUI()
     {
-        int[] screenSize = Functions.getCoordinates(MainActivity.this);
+        int[] screenSize = Utils.getScreenSize(MainActivity.this);
         int width = screenSize[0], height=screenSize[1];
         if(width == 1440 && height == 2560)
         {
@@ -143,7 +147,7 @@ public class MainActivity extends AppCompatActivity
         {
             String activity = intent.getStringExtra("activity");
             Log.d(MainActivity.class.getSimpleName(), "Previous activity: " + activity);
-            if(activity.equals("Connected"))
+            if(activity.equals("ConnectedActivity"))
             {
                 Log.d(MainActivity.class.getSimpleName(), "Set bt1");
                 socketTask = new SocketTask(MainActivity.this);
@@ -163,13 +167,13 @@ public class MainActivity extends AppCompatActivity
             if(username.contains(","))
             {
                 editTextUsername.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Username", "You should not enter username" +
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Username", "You should not enter username" +
                         " with the letter: ,", MainActivity.this);
                 builder.show();
             }
             if (password.contains(",")){
                 editTextPassword.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password", "You should not enter password" +
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter password" +
                         " with the letter: ,", MainActivity.this);
                 builder.show();
             }
@@ -179,20 +183,20 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // The function start the SignUp activity.
+    // The function start the SignUpActivity activity.
     public void onSignUp(View view)
     {
         username = editTextUsername.getText().toString();
-        Intent intent = new Intent(this, SignUp.class);
+        Intent intent = new Intent(this, SignUpActivity.class);
         intent.putExtra(USERNAME_KEY, username);
         startActivity(intent);
     }
 
-    // The function start the ForgotPassword activity.
+    // The function start the ForgotPasswordActivity activity.
     public void onForgotPassword(View view)
     {
         username = editTextUsername.getText().toString();
-        Intent intent = new Intent(this, ForgotPassword.class);
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
         intent.putExtra(USERNAME_KEY, username);
         startActivity(intent);
     }

@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,9 +32,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.example.user.amd.Utils;
+import com.example.user.amd.R;
+import com.example.user.amd.scanners.CheckProcesses;
+import com.example.user.amd.scanners.SmishingDetect;
+import com.example.user.amd.scanners.UnknownSources;
+import com.example.user.amd.scanners.osReport;
+import com.example.user.amd.tasks.SocketTask;
 
 
-public class Connected extends AppCompatActivity
+public class ConnectedActivity extends AppCompatActivity
 {
     private static String username;
     private static SocketTask socketTask;
@@ -222,7 +229,7 @@ public class Connected extends AppCompatActivity
 
         handleUI();
         try{
-            socketTask.setBuilder(Connected.this);
+            socketTask.setBuilder(ConnectedActivity.this);
             socketTask.setContextConnected(this);
         }
         catch (Exception ignored){}
@@ -255,7 +262,7 @@ public class Connected extends AppCompatActivity
         UnknownSourcesThread.start();
 
         // Check suspicious sms
-//        sm1 = new SmishingDetect(socketTask, Connected.this);
+//        sm1 = new SmishingDetect(socketTask, ConnectedActivity.this);
 //        Thread smishingDetectThread = new Thread(sm1);
 //        smishingDetectThread.start();
 
@@ -285,8 +292,8 @@ public class Connected extends AppCompatActivity
                 @Override
                 public void onCameraUnavailable(@NonNull String cameraId) {
                     super.onCameraUnavailable(cameraId);
-                    AlertDialog.Builder builder = Functions.onCreateDialog("Camera On", "You are not allowed to" +
-                            " open the camera.", Connected.this);
+                    AlertDialog.Builder builder = Utils.onCreateDialog("Camera On", "You are not allowed to" +
+                            " open the camera.", ConnectedActivity.this);
                     if(!builder.create().isShowing()){
                         builder.show();
                     }
@@ -340,8 +347,8 @@ public class Connected extends AppCompatActivity
         newUsername = editTextNewUsername.getText().toString();
         if (newUsername.contains(",")){
             editTextNewUsername.setText("");
-            AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Username", "You should not enter the" +
-                    " username with the letter: ,", Connected.this);
+            AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Username", "You should not enter the" +
+                    " username with the letter: ,", ConnectedActivity.this);
             builder.show();
         }
         else
@@ -386,21 +393,21 @@ public class Connected extends AppCompatActivity
         {
             if (oldPassword.contains(",")){
                 editTextOldPassword.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Old Password", "You should not enter the" +
-                        " password with the letter: ,", Connected.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Old Password", "You should not enter the" +
+                        " password with the letter: ,", ConnectedActivity.this);
                 builder.show();
             }
             if (newPassword.contains(",")){
                 editTextNewPassword.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password", "You should not enter the" +
-                        " password with the letter: ,", Connected.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter the" +
+                        " password with the letter: ,", ConnectedActivity.this);
                 builder.show();
             }
             if(!newPassword.equals(confirmPassword))
             {
                 editTextConfirmPassword.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password Confirmation", "You" +
-                        " have confirmed the password incorrectly. please try again.", Connected.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password Confirmation", "You" +
+                        " have confirmed the password incorrectly. please try again.", ConnectedActivity.this);
                 builder.show();
             }
         }
@@ -433,8 +440,8 @@ public class Connected extends AppCompatActivity
         String newEmail = editTextNewEmail.getText().toString();
         if (newEmail.contains(",")){
             editTextNewEmail.setText("");
-            AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Email", "You should not enter the" +
-                    " email with the letter: ,", Connected.this);
+            AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Email", "You should not enter the" +
+                    " email with the letter: ,", ConnectedActivity.this);
             builder.show();
         }
         else {
@@ -446,7 +453,7 @@ public class Connected extends AppCompatActivity
     // request to the server.
     public void onDeleteUser(View view)
     {
-        AlertDialog.Builder deletePopUp = new AlertDialog.Builder(Connected.this);
+        AlertDialog.Builder deletePopUp = new AlertDialog.Builder(ConnectedActivity.this);
         deletePopUp.setTitle("Confirm Delete");
         deletePopUp.setMessage("Are you sure you want to delete your account?");
         deletePopUp.setPositiveButton("No", new DialogInterface.OnClickListener() {
@@ -462,7 +469,7 @@ public class Connected extends AppCompatActivity
     // The function shows a verify dialog to logout, before she send logout request to the server.
     public void onLogOut(View view)
     {
-        AlertDialog.Builder exitVerificationPopUp = new AlertDialog.Builder(Connected.this);
+        AlertDialog.Builder exitVerificationPopUp = new AlertDialog.Builder(ConnectedActivity.this);
         exitVerificationPopUp.setTitle("Confirm Exit");
         exitVerificationPopUp.setMessage("Are you sure you want to exit your account?");
         exitVerificationPopUp.setPositiveButton("No", new DialogInterface.OnClickListener() {
@@ -478,7 +485,7 @@ public class Connected extends AppCompatActivity
     // The function gets notification and present it in the notifications page.
     public void addNotification(View view, String notification)
     {
-        Log.d(Connected.class.getSimpleName(), "Get notification: " + notification);
+        Log.d(ConnectedActivity.class.getSimpleName(), "Get notification: " + notification);
         notificationsCount++;
         if (notificationsSwitch.isChecked())
             bottomNavigation.setNotification(Integer.toString(notificationsCount), 1);
@@ -586,7 +593,7 @@ public class Connected extends AppCompatActivity
     // The function also take care of the buttons visibility in the UI, and other important things.
     private void handleUI()
     {
-        int[] screenSize = Functions.getCoordinates(Connected.this);
+        int[] screenSize = Utils.getScreenSize(ConnectedActivity.this);
         int width = screenSize[0], height=screenSize[1];
         if(width == 1440 && height == 2560)
         {

@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,9 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Utils;
+import com.example.user.amd.R;
+import com.example.user.amd.tasks.SocketTask;
+
 
 // Activity of Sign Up page.
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private SocketTask socketTask;
     private static String username;
@@ -34,7 +38,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         socketTask = MainActivity.socketTask;
-        socketTask.setBuilder(SignUp.this);
+        socketTask.setBuilder(SignUpActivity.this);
         editText1 = (EditText)findViewById(R.id.edit_text_username_sign_up);
         editText2 = (EditText)findViewById(R.id.edit_text_password_sign_up);
         editText3 = (EditText)findViewById(R.id.edit_text_confirm_password_sign_up);
@@ -73,27 +77,27 @@ public class SignUp extends AppCompatActivity {
         {
             if (!password.equals(confirmPassword)) {
                 editText3.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password Confirmation", "You have " +
-                        "confirmed the password incorrectly. please try again.", SignUp.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password Confirmation", "You have " +
+                        "confirmed the password incorrectly. please try again.", SignUpActivity.this);
                 builder.show();
             }
             if(username.contains(","))
             {
                 editText1.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Username", "You should not enter the " +
-                        " username with the letter: ,", SignUp.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Username", "You should not enter the " +
+                        " username with the letter: ,", SignUpActivity.this);
                 builder.show();
             }
             if (password.contains(",")){
                 editText2.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password", "You should not enter the" +
-                        " password with the letter: ,", SignUp.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter the" +
+                        " password with the letter: ,", SignUpActivity.this);
                 builder.show();
             }
         }
         else
         {
-            socketTask.send("SignUp," + username + "," + password + "," + email);
+            socketTask.send("SignUpActivity," + username + "," + password + "," + email);
         }
     }
 
@@ -112,7 +116,7 @@ public class SignUp extends AppCompatActivity {
     public void backLogin(View view)
     {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("activity","SignUp");
+        intent.putExtra("activity","SignUpActivity");
         startActivity(intent);
     }
 
@@ -120,7 +124,7 @@ public class SignUp extends AppCompatActivity {
     // The function also take care of the buttons visibility in the UI.
     private void handleUI()
     {
-        int[] screenSize = Functions.getCoordinates(SignUp.this);
+        int[] screenSize = Utils.getScreenSize(SignUpActivity.this);
         int width = screenSize[0], height=screenSize[1];
         if(width == 1440 && height == 2560)
         {

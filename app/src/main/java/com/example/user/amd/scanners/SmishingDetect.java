@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.scanners;
 
 
 import android.Manifest;
@@ -11,11 +11,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.example.user.amd.Config;
+import com.example.user.amd.tasks.SocketTask;
+
 import java.util.concurrent.TimeUnit;
 
 
 // Thread that sends all the SMS inbox to the server.
-class SmishingDetect implements Runnable
+public class SmishingDetect implements Runnable
 {
     private SocketTask socketTask;
     private Context mContext;
@@ -78,7 +81,7 @@ class SmishingDetect implements Runnable
     }
 
     // When permission is allowed by the client.
-    void setPermission()
+    public void setPermission()
     {
         Log.d(SmishingDetect.class.getSimpleName(), "permission allowed!");
         permission = true;

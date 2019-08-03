@@ -1,12 +1,27 @@
-package com.example.user.amd;
+package com.example.user.amd.tasks;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+
+import com.example.user.amd.Config;
+import com.example.user.amd.Utils;
+import com.example.user.amd.scanners.CheckProcesses;
+import com.example.user.amd.activities.ConnectedActivity;
+import com.example.user.amd.activities.CreatePasswordActivity;
+import com.example.user.amd.activities.LoadingActivity;
+import com.example.user.amd.activities.MainActivity;
+import com.example.user.amd.activities.SignUpActivity;
+import com.example.user.amd.scanners.SmishingDetect;
+import com.example.user.amd.scanners.SuspiciousApps;
+import com.example.user.amd.scanners.UnknownSources;
+import com.example.user.amd.encryption.AESCipher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,10 +31,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 
-// Thread that incarge of all the communication with the server.
-class SocketTask extends AsyncTask<String,String ,String >
+public class SocketTask extends AsyncTask<String,String ,String >
 {
-    static final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
+    public static final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
     private String dataToSend = "";
     private String response = "";
     private Activity currentActivity;
@@ -27,7 +41,7 @@ class SocketTask extends AsyncTask<String,String ,String >
     private boolean socketError= false;
     private boolean send = false;
     private boolean finish = false;
-    private Connected connected_activity;
+    private ConnectedActivity connected_activity;
     private UnknownSources unknownSources;
     private ArrayList listNotifications;
     private SmishingDetect sm1;
@@ -35,20 +49,19 @@ class SocketTask extends AsyncTask<String,String ,String >
     private String AESKey;
     private CheckProcesses cp1;
 
-    SocketTask(MainActivity activity)
+    public SocketTask(MainActivity activity)
     {
         currentActivity = activity;
         listNotifications = new ArrayList();
     }
 
     // Set the builder according to the current activity.
-    void setBuilder(Activity activity)
-    {
+    public void setBuilder(Activity activity) {
         currentActivity = activity;
     }
 
     // Set the connected activity as the context.
-    void setContextConnected(Connected activity){
+    public void setContextConnected(ConnectedActivity activity) {
         connected_activity = activity;
         for(Object notification : listNotifications){
             connected_activity.addNotification((View)null, notification.toString());
@@ -101,7 +114,7 @@ class SocketTask extends AsyncTask<String,String ,String >
 
     // The function gets the data and set the dataToSend parameter. the WriteData thread will
     // send it.
-    void send(String data, boolean encrypt, boolean delimiter)
+    public void send(String data, boolean encrypt, boolean delimiter)
     {
         Log.d(SocketTask.class.getSimpleName(), "Sending to server: " + data);
         if (encrypt) {
@@ -121,7 +134,7 @@ class SocketTask extends AsyncTask<String,String ,String >
     }
 
     // Optional function that sets default values to the encrypt and delimiter parameters in the send function.
-    void send(String data){
+    public void send(String data) {
         send(data, true, true);
     }
 
@@ -134,8 +147,7 @@ class SocketTask extends AsyncTask<String,String ,String >
             this.writer = writer;
         }
 
-        public void run()
-        {
+        public void run() {
             while (!finish) {
                 if (send)
                 {
@@ -176,24 +188,25 @@ class SocketTask extends AsyncTask<String,String ,String >
         }
     }
 
-    void getSuspiciousAppsClass(SuspiciousApps sa1){
+    public void getSuspiciousAppsClass(SuspiciousApps sa1) {
         this.sa1 = sa1;
     }
 
-    void getCheckProcessesClass(CheckProcesses cp1){
+    public void getCheckProcessesClass(CheckProcesses cp1) {
         this.cp1 = cp1;
     }
 
-    void getUnknownSourcesClass(UnknownSources un1){
+    public void getUnknownSourcesClass(UnknownSources un1) {
         this.unknownSources = un1;
     }
 
-    void getSmishingDetectClass(SmishingDetect sm1){
+    public void getSmishingDetectClass(SmishingDetect sm1) {
         this.sm1 = sm1;
     }
 
     // The function called meanwhile the doInBackground and handle the UI according to the
     // response from the server.
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onProgressUpdate(String... s)
     {
@@ -201,10 +214,10 @@ class SocketTask extends AsyncTask<String,String ,String >
         // Check if there is any socket error.
         if(socketError && !dataToSend.startsWith("LogOut"))
         {
-            if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.Connected"))
+            if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.ConnectedActivity"))
                 unknownSources.finish();
             finish = true;
-            AlertDialog.Builder builder = Functions.onCreateDialog("Connection Error", "The AMD" +
+            AlertDialog.Builder builder = Utils.onCreateDialog("Connection Error", "The AMD" +
                     " server is not available at this time. Please try again later.", currentActivity);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id)
@@ -230,13 +243,13 @@ class SocketTask extends AsyncTask<String,String ,String >
                     // Handle the current response
                     Log.d(SocketTask.class.getSimpleName(), "current response: " + currentResponse);
                     if (currentResponse.equals("Incorrect Username")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Username Does'nt" +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Username Does'nt" +
                                 " exist", "The username you entered does'nt exist." +
                                 " please try again.", currentActivity);
                         builder.show();
                     }
                     if (currentResponse.equals("Incorrect Password")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Incorrect Password",
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Incorrect Password",
                                 "The The password you entered is incorrect. please try again.", currentActivity);
                         builder.show();
                     }
@@ -248,37 +261,37 @@ class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.equals("Login Complete, need to change password")) {
-                        String username = SignUp.getUsername();
+                        String username = SignUpActivity.getUsername();
                         if (username == null) {
                             username = MainActivity.getUsername();
                         }
-                        Intent i = new Intent(currentActivity, CreatePassword.class); //use context here
+                        Intent i = new Intent(currentActivity, CreatePasswordActivity.class); //use context here
                         i.putExtra(USERNAME_KEY, username);
                         currentActivity.startActivity(i);
                     }
 
                     if (currentResponse.equals("Username Exist")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Username Already" +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Username Already" +
                                 " Exist", "There is already AMD user with this username." +
                                 " please try again.", currentActivity);
                         builder.show();
                     }
 
                     if (currentResponse.equals("Username Accepted")) {
-                        String username = SignUp.getUsername();
+                        String username = SignUpActivity.getUsername();
                         Intent i = new Intent(currentActivity, LoadingActivity.class);
                         i.putExtra(USERNAME_KEY, username);
                         currentActivity.startActivity(i);
                     }
 
                     if (currentResponse.equals("Email Sent")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Email Sent",
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Email Sent",
                                 "Your password sent to your email. if you don't get anything, " +
                                         "send the request again.", currentActivity);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent i = new Intent(currentActivity, MainActivity.class);
-                                i.putExtra("activity", "ForgotPassword");
+                                i.putExtra("activity", "ForgotPasswordActivity");
                                 currentActivity.startActivity(i);
                             }
                         });
@@ -286,7 +299,7 @@ class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.equals("Fail Sending Email")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Fail Sending Email", "The server" +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Fail Sending Email", "The server" +
                                 " couldn't send to the requested email. maybe the address " +
                                 "does'nt exist or the server is not connected to the internet." +
                                 " try again with a different username or email", currentActivity);
@@ -294,33 +307,33 @@ class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.contains("Loading Complete")) {
-                        String username = SignUp.getUsername();
+                        String username = SignUpActivity.getUsername();
                         if (username == null) {
                             username = MainActivity.getUsername();
                         }
-                        Intent i = new Intent(currentActivity, Connected.class); //use context here
+                        Intent i = new Intent(currentActivity, ConnectedActivity.class); //use context here
                         i.putExtra(USERNAME_KEY, username);
                         currentActivity.startActivity(i);
                     }
 
                     if (currentResponse.equals("Password Accepted")) {
-                        String username = SignUp.getUsername();
+                        String username = SignUpActivity.getUsername();
                         Intent i = new Intent(currentActivity, LoadingActivity.class);
                         i.putExtra(USERNAME_KEY, username);
                         currentActivity.startActivity(i);
                     }
 
                     if (currentResponse.equals("Username Does'nt Exist")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Username Does'nt " +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Username Does'nt " +
                                 "Exist", "There is no user that has this username or email." +
                                 " please try again.", currentActivity);
                         builder.show();
                     }
                     if (currentResponse.equals("Username Changed")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Successfully " +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Successfully " +
                                 "Changed Username", "The AMD server has saved the new username." +
                                 " please try again.", currentActivity);
-                        Connected.usernameChanged();
+                        ConnectedActivity.usernameChanged();
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 connected_activity.backSettings((View) null);
@@ -329,7 +342,7 @@ class SocketTask extends AsyncTask<String,String ,String >
                         builder.show();
                     }
                     if (currentResponse.equals("Email Changed")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Successfully " +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Successfully " +
                                 "Changed Email", "The AMD server has saved the new email.", currentActivity);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -339,7 +352,7 @@ class SocketTask extends AsyncTask<String,String ,String >
                         builder.show();
                     }
                     if (currentResponse.equals("Password Changed")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Successfully " +
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Successfully " +
                                 "Changed Password", "The AMD server has saved the new password.", currentActivity);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -350,7 +363,7 @@ class SocketTask extends AsyncTask<String,String ,String >
 
                     }
                     if (currentResponse.equals("Invalid Email")) {
-                        AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Email",
+                        AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Email",
                                 "You entered invalid email. try again.", currentActivity);
                         builder.show();
                     }
@@ -375,12 +388,12 @@ class SocketTask extends AsyncTask<String,String ,String >
                         }
                     }
                     if (currentResponse.equals("Logout Successfully") || currentResponse.equals("Delete Complete")) {
-                        if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.Connected"))
+                        if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.ConnectedActivity"))
                             unknownSources.finish();
 
                         finish = true;
                         Intent i = new Intent(currentActivity, MainActivity.class);
-                        i.putExtra("activity", "Connected");
+                        i.putExtra("activity", "ConnectedActivity");
                         currentActivity.startActivity(i);
                     }
                 }

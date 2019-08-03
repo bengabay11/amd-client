@@ -1,15 +1,18 @@
-package com.example.user.amd;
+package com.example.user.amd.scanners;
 
 import android.util.Log;
 
+import com.example.user.amd.tasks.SocketTask;
+import com.example.user.amd.Utils;
+
 
 // Thread that sends all the processes that run on the device every minute.
-class CheckProcesses implements Runnable
+public class CheckProcesses implements Runnable
 {
     private boolean continueSend;
     private SocketTask socketTask;
 
-    CheckProcesses(SocketTask socketTask)
+    public CheckProcesses(SocketTask socketTask)
     {
         this.socketTask = socketTask;
     }
@@ -19,22 +22,22 @@ class CheckProcesses implements Runnable
         while (true)
         {
             socketTask.getCheckProcessesClass(this);
-            Functions.sleep(2);
+            Utils.sleep(2);
             // Execute command ps, that will return all the processes that running on the device.
-            String result = Functions.executeCommand("ps");
+            String result = Utils.executeCommand("ps");
             Log.d(SuspiciousApps.class.getSimpleName(), "ps Result: " + result);
             Log.d(CheckProcesses.class.getSimpleName(), "CheckProcesses length: " + result.length());
             while (result.length() > 900) {
                 socketTask.send("CheckProcessesData," + result.substring(0, 900));
                 result = result.substring(900, result.length());
-//                Functions.sleep(2);
+//                Utils.sleep(2);
                 stopSend();
             }
             socketTask.send("CheckProcessesData," + result);
-//            Functions.sleep(2);
+//            Utils.sleep(2);
             stopSend();
             socketTask.send("CheckProcesses");
-            Functions.sleep(120);
+            Utils.sleep(120);
         }
     }
 

@@ -1,18 +1,22 @@
-package com.example.user.amd;
+package com.example.user.amd.scanners;
 
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.example.user.amd.activities.ConnectedActivity;
+import com.example.user.amd.tasks.SocketTask;
+import com.example.user.amd.Utils;
+
 
 // Thread that checks "Unknown Sources" permission in settings.
-class UnknownSources implements Runnable
+public class UnknownSources implements Runnable
 {
     private SocketTask socketTask;
     private boolean finish = false;
-    private Connected currentActivity;
+    private ConnectedActivity currentActivity;
 
-    UnknownSources(Connected activity, SocketTask socketTask){
+    public UnknownSources(ConnectedActivity activity, SocketTask socketTask){
         this.currentActivity = activity;
         this.socketTask = socketTask;
     }
@@ -23,7 +27,7 @@ class UnknownSources implements Runnable
         boolean isNonPlayAppAllowed = false;
         String notification = "Unknown sources permission is allowed in settings.";
         // Create dialog
-        final AlertDialog.Builder builder = Functions.onCreateDialog("Unknown Sources",
+        final AlertDialog.Builder builder = Utils.onCreateDialog("Unknown Sources",
                 "Unknown sources permission is allowed in your settings. turn it off.", currentActivity);
 
         while(!finish)
@@ -62,12 +66,12 @@ class UnknownSources implements Runnable
                 runOnce = true;
                 socketTask.send("UnknownSources,Not Allowed");
             }
-            Functions.sleep(60);
+            Utils.sleep(60);
         }
     }
 
     // To finish thread
-    void finish(){
+    public void finish(){
         finish = true;
     }
 }

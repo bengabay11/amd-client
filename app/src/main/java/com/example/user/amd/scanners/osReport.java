@@ -1,14 +1,16 @@
-package com.example.user.amd;
+package com.example.user.amd.scanners;
 
 import android.os.Build;
 
+import com.example.user.amd.tasks.SocketTask;
+
 
 // The thread will send the current OS version to the server.
-class osReport implements Runnable
+public class osReport implements Runnable
 {
     private SocketTask socketTask;
 
-    osReport(SocketTask socketTask)
+    public osReport(SocketTask socketTask)
     {
         this.socketTask = socketTask;
     }

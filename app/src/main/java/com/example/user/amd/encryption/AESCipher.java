@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.encryption;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +23,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Base64;
 
 
-class AESCipher {
+public class AESCipher {
     private String key;
     private byte[] keyBytes;
 
@@ -32,7 +32,7 @@ class AESCipher {
 
     private static byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-    AESCipher(String secretKey)
+    public AESCipher(String secretKey)
     {
         key = secretKey;
         SecureRandom random = new SecureRandom();
@@ -40,14 +40,14 @@ class AESCipher {
         random.nextBytes(AESCipher.ivBytes);
     }
 
-    String encrypt_string(final String plain) throws InvalidKeyException, NoSuchAlgorithmException,
+    public String encrypt_string(final String plain) throws InvalidKeyException, NoSuchAlgorithmException,
             NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException
     {
         return Base64.encodeToString(encrypt(plain.getBytes()), Base64.DEFAULT);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    String decrypt_string(final String plain) throws InvalidKeyException,
+    public String decrypt_string(final String plain) throws InvalidKeyException,
             NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
             IllegalBlockSizeException, BadPaddingException
     {

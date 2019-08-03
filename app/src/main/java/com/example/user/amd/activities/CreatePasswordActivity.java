@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.activities;
 
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
@@ -10,9 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Utils;
+import com.example.user.amd.R;
+import com.example.user.amd.tasks.SocketTask;
+
 
 // Activity of Create New Password after reset the password from the email.
-public class CreatePassword extends AppCompatActivity {
+public class CreatePasswordActivity extends AppCompatActivity {
     SocketTask socketTask;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
@@ -45,15 +49,15 @@ public class CreatePassword extends AppCompatActivity {
         {
             if (newPassword.contains(",")){
                 editTextPassword.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password", "You should not enter the" +
-                        " password with the letter: ,", CreatePassword.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter the" +
+                        " password with the letter: ,", CreatePasswordActivity.this);
                 builder.show();
             }
             if(!newPassword.equals(confirmPassword))
             {
                 editTextConfirmPassword.setText("");
-                AlertDialog.Builder builder = Functions.onCreateDialog("Invalid Password Confirmation", "You" +
-                        " have confirmed the password incorrectly. please try again.", CreatePassword.this);
+                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password Confirmation", "You" +
+                        " have confirmed the password incorrectly. please try again.", CreatePasswordActivity.this);
                 builder.show();
             }
         }
@@ -74,7 +78,7 @@ public class CreatePassword extends AppCompatActivity {
 
     public void handleUI()
     {
-        int[] screenSize = Functions.getCoordinates(CreatePassword.this);
+        int[] screenSize = Utils.getScreenSize(CreatePasswordActivity.this);
         int width = screenSize[0], height=screenSize[1];
         if(width == 1440 && height == 2560) {
             createPasswordButton.setTextSize(20);

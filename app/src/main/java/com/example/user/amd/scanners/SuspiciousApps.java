@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.scanners;
 
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -7,17 +7,19 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.util.Log;
 
+import com.example.user.amd.tasks.SocketTask;
+
 import java.util.List;
 
 
 // Thread that sends all the applications info to the server.
-class SuspiciousApps implements Runnable
+public class SuspiciousApps implements Runnable
 {
     private PackageManager pm1;
     private SocketTask socketTask;
     private boolean continueSend = false;
 
-    SuspiciousApps(PackageManager pm1, SocketTask socketTask)
+    public SuspiciousApps(PackageManager pm1, SocketTask socketTask)
     {
         this.pm1 = pm1;
         this.socketTask = socketTask;
@@ -32,11 +34,11 @@ class SuspiciousApps implements Runnable
         while (dataToSend.length() > 1024) {
             socketTask.send("CheckAppsData," + dataToSend.substring(0, 1024));
             dataToSend = dataToSend.substring(1024, dataToSend.length());
-//            Functions.sleep(500, true);
+//            Utils.sleep(500, true);
             stopSend();
         }
         socketTask.send("CheckAppsData," + dataToSend);
-//        Functions.sleep(500, true);
+//        Utils.sleep(500, true);
         stopSend();
         socketTask.send("CheckApps");
     }

@@ -1,4 +1,4 @@
-package com.example.user.amd;
+package com.example.user.amd.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,9 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Utils;
+import com.example.user.amd.R;
+import com.example.user.amd.tasks.SocketTask;
+
 
 // Activity of Forgot Password page.
-public class ForgotPassword extends AppCompatActivity
+public class ForgotPasswordActivity extends AppCompatActivity
 {
     SocketTask socketTask;
     private EditText editText1;
@@ -29,7 +33,7 @@ public class ForgotPassword extends AppCompatActivity
 
 
         socketTask = MainActivity.socketTask;
-        socketTask.setBuilder(ForgotPassword.this);
+        socketTask.setBuilder(ForgotPasswordActivity.this);
         Intent intent = getIntent();
         String username = intent.getStringExtra(MainActivity.USERNAME_KEY);
         editText1 = (EditText)findViewById(R.id.edit_text_username);
@@ -54,7 +58,7 @@ public class ForgotPassword extends AppCompatActivity
     public void backLogin(View view)
     {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("activity","ForgotPassword");
+        intent.putExtra("activity","ForgotPasswordActivity");
         startActivity(intent);
     }
 
@@ -63,18 +67,18 @@ public class ForgotPassword extends AppCompatActivity
     {
         String usernameOrEmail = editText1.getText().toString();
         if(usernameOrEmail.contains(",")){
-            AlertDialog.Builder dialog = Functions.onCreateDialog("Invalid Username or Email", "You should not enter the " +
-                    " username or the email with the letter: ,", ForgotPassword.this);
+            AlertDialog.Builder dialog = Utils.onCreateDialog("Invalid Username or Email", "You should not enter the " +
+                    " username or the email with the letter: ,", ForgotPasswordActivity.this);
             dialog.show();
         }
-        socketTask.send("ForgotPassword," + usernameOrEmail);
+        socketTask.send("ForgotPasswordActivity," + usernameOrEmail);
     }
 
     // The function handle the UI according to the screen size.
     // The function also take care of the buttons visibility in the UI.
     private void handleUI()
     {
-        int[] screenSize = Functions.getCoordinates(ForgotPassword.this);
+        int[] screenSize = Utils.getScreenSize(ForgotPasswordActivity.this);
         int width = screenSize[0], height=screenSize[1];
         if(width == 1440 && height == 2560)
         {
