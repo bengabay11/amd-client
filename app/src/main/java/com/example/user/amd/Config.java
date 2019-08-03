@@ -13,5 +13,7 @@ public class Config
     public static String SMS_URI_ALL = "content://sms/";
 
     public static final int SERVER_PORT = 6000;
-    public static final String SERVER_IP = "172.16.1.95";
+    public static final String SERVER_IP = "192.168.1.46";
+
+    public final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
 }

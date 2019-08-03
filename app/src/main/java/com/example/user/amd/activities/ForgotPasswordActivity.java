@@ -15,6 +15,8 @@ import com.example.user.amd.Utils;
 import com.example.user.amd.R;
 import com.example.user.amd.tasks.SocketTask;
 
+import static com.example.user.amd.tasks.SocketTask.USERNAME_KEY;
+
 
 // Activity of Forgot Password page.
 public class ForgotPasswordActivity extends AppCompatActivity
@@ -35,7 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity
         socketTask = MainActivity.socketTask;
         socketTask.setBuilder(ForgotPasswordActivity.this);
         Intent intent = getIntent();
-        String username = intent.getStringExtra(MainActivity.USERNAME_KEY);
+        String username = intent.getStringExtra(USERNAME_KEY);
         editText1 = (EditText)findViewById(R.id.edit_text_username);
         editText1.setText(username);
         crossXButtonUsername = (Button)findViewById(R.id.cross_x_button1);
