@@ -1,6 +1,7 @@
 package com.example.user.amd;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -17,19 +18,19 @@ import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Base64;
 
 
-// Class of encryption, using AES cipher.
-public class AESCipher {
+class AESCipher {
+    private String key;
+    private byte[] keyBytes;
 
-    private static final String characterEncoding = "UTF-8";
-    private static final String cipherTransformation = "AES/CBC/PKCS5Padding";
-    private static final String aesEncryptionAlgorithm = "AES";
-    private static String key;
+    private final String cipherTransformation = "AES/CBC/PKCS5Padding";
+    private final String aesEncryptionAlgorithm = "AES";
+
     private static byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-    private static byte[] keyBytes;
-
 
     AESCipher(String secretKey)
     {
@@ -39,40 +40,30 @@ public class AESCipher {
         random.nextBytes(AESCipher.ivBytes);
     }
 
-    // The function gets data and encrypt it with encrypt function.
-    public String encrypt_string(final String plain) throws InvalidKeyException,
-            NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-            IllegalBlockSizeException, BadPaddingException, IOException
+    String encrypt_string(final String plain) throws InvalidKeyException, NoSuchAlgorithmException,
+            NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException
     {
         return Base64.encodeToString(encrypt(plain.getBytes()), Base64.DEFAULT);
     }
 
-    // The function gets data and decrypt it with decrypt function.
-    public String decrypt_string(final String plain) throws InvalidKeyException,
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    String decrypt_string(final String plain) throws InvalidKeyException,
             NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-            IllegalBlockSizeException, BadPaddingException, ClassNotFoundException, IOException
+            IllegalBlockSizeException, BadPaddingException
     {
         byte[] encryptedBytes = decrypt(Base64.decode(plain, 0));
         return new String(encryptedBytes);
 
     }
 
-    // The function gets data that encoded with base64. first the function uses the has SHA-256
-    // and then encrypt the data with the AES key.
-    public   byte[] encrypt(   byte[] mes)
-            throws NoSuchAlgorithmException,
-            NoSuchPaddingException,
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException, IOException {
-
+    private byte[] encrypt(byte[] mes) throws NoSuchAlgorithmException, NoSuchPaddingException,
+            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
+        String characterEncoding = "UTF-8";
         keyBytes = key.getBytes(characterEncoding);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(keyBytes);
         keyBytes = md.digest();
 
-//        AlgorithmParameterSpec ivSpec = new IvParameterSpec(ivBytes);
         SecretKeySpec newKey = new SecretKeySpec(keyBytes, aesEncryptionAlgorithm);
         Cipher cipher = Cipher.getInstance(cipherTransformation);
 
@@ -81,7 +72,6 @@ public class AESCipher {
         random.nextBytes(AESCipher.ivBytes);
 
         cipher.init(Cipher.ENCRYPT_MODE, newKey, random);
-//    cipher.init(Cipher.ENCRYPT_MODE, newKey, ivSpec);
         byte[] destination = new byte[ivBytes.length + mes.length];
         System.arraycopy(ivBytes, 0, destination, 0, ivBytes.length);
         System.arraycopy(mes, 0, destination, ivBytes.length, mes.length);
@@ -89,17 +79,11 @@ public class AESCipher {
 
     }
 
-    // The function gets data that encoded with UTF-8.
-    // the function encrypt the data with the AES key.
-    public byte[] decrypt(   byte[] bytes)
-            throws NoSuchAlgorithmException,
-            NoSuchPaddingException,
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            IllegalBlockSizeException,
-            BadPaddingException, IOException, ClassNotFoundException {
-
-        keyBytes = key.getBytes("UTF-8");
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private byte[] decrypt(byte[] bytes) throws NoSuchAlgorithmException, NoSuchPaddingException,
+            InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
+            BadPaddingException {
+        keyBytes = key.getBytes(StandardCharsets.UTF_8);
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(keyBytes);
         keyBytes = md.digest();
