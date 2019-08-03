@@ -217,7 +217,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
             if(currentActivity.getClass().getName().equals("com.example.user.java.com.amd.ConnectedActivity"))
                 unknownSources.finish();
             finish = true;
-            AlertDialog.Builder builder = Utils.onCreateDialog("Connection Error", "The AMD" +
+            AlertDialog.Builder builder = Utils.CreateDialog("Connection Error", "The AMD" +
                     " server is not available at this time. Please try again later.", currentActivity);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id)
@@ -243,13 +243,13 @@ public class SocketTask extends AsyncTask<String,String ,String >
                     // Handle the current response
                     Log.d(SocketTask.class.getSimpleName(), "current response: " + currentResponse);
                     if (currentResponse.equals("Incorrect Username")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Username Does'nt" +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Username Does'nt" +
                                 " exist", "The username you entered does'nt exist." +
                                 " please try again.", currentActivity);
                         builder.show();
                     }
                     if (currentResponse.equals("Incorrect Password")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Incorrect Password",
+                        AlertDialog.Builder builder = Utils.CreateDialog("Incorrect Password",
                                 "The The password you entered is incorrect. please try again.", currentActivity);
                         builder.show();
                     }
@@ -271,7 +271,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.equals("Username Exist")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Username Already" +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Username Already" +
                                 " Exist", "There is already AMD user with this username." +
                                 " please try again.", currentActivity);
                         builder.show();
@@ -285,7 +285,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.equals("Email Sent")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Email Sent",
+                        AlertDialog.Builder builder = Utils.CreateDialog("Email Sent",
                                 "Your password sent to your email. if you don't get anything, " +
                                         "send the request again.", currentActivity);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -299,7 +299,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.equals("Fail Sending Email")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Fail Sending Email", "The server" +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Fail Sending Email", "The server" +
                                 " couldn't send to the requested email. maybe the address " +
                                 "does'nt exist or the server is not connected to the internet." +
                                 " try again with a different username or email", currentActivity);
@@ -324,13 +324,13 @@ public class SocketTask extends AsyncTask<String,String ,String >
                     }
 
                     if (currentResponse.equals("Username Does'nt Exist")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Username Does'nt " +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Username Does'nt " +
                                 "Exist", "There is no user that has this username or email." +
                                 " please try again.", currentActivity);
                         builder.show();
                     }
                     if (currentResponse.equals("Username Changed")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Successfully " +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Successfully " +
                                 "Changed Username", "The AMD server has saved the new username." +
                                 " please try again.", currentActivity);
                         ConnectedActivity.usernameChanged();
@@ -342,7 +342,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                         builder.show();
                     }
                     if (currentResponse.equals("Email Changed")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Successfully " +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Successfully " +
                                 "Changed Email", "The AMD server has saved the new email.", currentActivity);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -352,7 +352,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                         builder.show();
                     }
                     if (currentResponse.equals("Password Changed")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Successfully " +
+                        AlertDialog.Builder builder = Utils.CreateDialog("Successfully " +
                                 "Changed Password", "The AMD server has saved the new password.", currentActivity);
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -363,7 +363,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
 
                     }
                     if (currentResponse.equals("Invalid Email")) {
-                        AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Email",
+                        AlertDialog.Builder builder = Utils.CreateDialog("Invalid Email",
                                 "You entered invalid email. try again.", currentActivity);
                         builder.show();
                     }

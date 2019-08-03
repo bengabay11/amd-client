@@ -9,7 +9,6 @@ import com.example.user.amd.tasks.SocketTask;
 import com.example.user.amd.Utils;
 
 
-// Thread that checks "Unknown Sources" permission in settings.
 public class UnknownSources implements Runnable
 {
     private SocketTask socketTask;
@@ -26,8 +25,7 @@ public class UnknownSources implements Runnable
         boolean runOnce = true;
         boolean isNonPlayAppAllowed = false;
         String notification = "Unknown sources permission is allowed in settings.";
-        // Create dialog
-        final AlertDialog.Builder builder = Utils.onCreateDialog("Unknown Sources",
+        final AlertDialog.Builder builder = Utils.CreateDialog("Unknown Sources",
                 "Unknown sources permission is allowed in your settings. turn it off.", currentActivity);
 
         while(!finish)

@@ -167,13 +167,13 @@ public class MainActivity extends AppCompatActivity
             if(username.contains(","))
             {
                 editTextUsername.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Username", "You should not enter username" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Username", "You should not enter username" +
                         " with the letter: ,", MainActivity.this);
                 builder.show();
             }
             if (password.contains(",")){
                 editTextPassword.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter password" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password", "You should not enter password" +
                         " with the letter: ,", MainActivity.this);
                 builder.show();
             }

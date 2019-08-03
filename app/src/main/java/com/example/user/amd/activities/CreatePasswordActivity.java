@@ -49,14 +49,14 @@ public class CreatePasswordActivity extends AppCompatActivity {
         {
             if (newPassword.contains(",")){
                 editTextPassword.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter the" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password", "You should not enter the" +
                         " password with the letter: ,", CreatePasswordActivity.this);
                 builder.show();
             }
             if(!newPassword.equals(confirmPassword))
             {
                 editTextConfirmPassword.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password Confirmation", "You" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
                         " have confirmed the password incorrectly. please try again.", CreatePasswordActivity.this);
                 builder.show();
             }

@@ -292,7 +292,7 @@ public class ConnectedActivity extends AppCompatActivity
                 @Override
                 public void onCameraUnavailable(@NonNull String cameraId) {
                     super.onCameraUnavailable(cameraId);
-                    AlertDialog.Builder builder = Utils.onCreateDialog("Camera On", "You are not allowed to" +
+                    AlertDialog.Builder builder = Utils.CreateDialog("Camera On", "You are not allowed to" +
                             " open the camera.", ConnectedActivity.this);
                     if(!builder.create().isShowing()){
                         builder.show();
@@ -347,7 +347,7 @@ public class ConnectedActivity extends AppCompatActivity
         newUsername = editTextNewUsername.getText().toString();
         if (newUsername.contains(",")){
             editTextNewUsername.setText("");
-            AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Username", "You should not enter the" +
+            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Username", "You should not enter the" +
                     " username with the letter: ,", ConnectedActivity.this);
             builder.show();
         }
@@ -393,20 +393,20 @@ public class ConnectedActivity extends AppCompatActivity
         {
             if (oldPassword.contains(",")){
                 editTextOldPassword.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Old Password", "You should not enter the" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Old Password", "You should not enter the" +
                         " password with the letter: ,", ConnectedActivity.this);
                 builder.show();
             }
             if (newPassword.contains(",")){
                 editTextNewPassword.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter the" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password", "You should not enter the" +
                         " password with the letter: ,", ConnectedActivity.this);
                 builder.show();
             }
             if(!newPassword.equals(confirmPassword))
             {
                 editTextConfirmPassword.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password Confirmation", "You" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
                         " have confirmed the password incorrectly. please try again.", ConnectedActivity.this);
                 builder.show();
             }
@@ -440,7 +440,7 @@ public class ConnectedActivity extends AppCompatActivity
         String newEmail = editTextNewEmail.getText().toString();
         if (newEmail.contains(",")){
             editTextNewEmail.setText("");
-            AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Email", "You should not enter the" +
+            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Email", "You should not enter the" +
                     " email with the letter: ,", ConnectedActivity.this);
             builder.show();
         }

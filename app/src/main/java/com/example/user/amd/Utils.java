@@ -25,7 +25,7 @@ public class Utils
         }
     }
 
-    public static AlertDialog.Builder onCreateDialog(String title, String body, Activity activity) {
+    public static AlertDialog.Builder CreateDialog(String title, String body, Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
         builder.setMessage(body);

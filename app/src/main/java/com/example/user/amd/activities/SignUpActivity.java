@@ -77,20 +77,20 @@ public class SignUpActivity extends AppCompatActivity {
         {
             if (!password.equals(confirmPassword)) {
                 editText3.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password Confirmation", "You have " +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You have " +
                         "confirmed the password incorrectly. please try again.", SignUpActivity.this);
                 builder.show();
             }
             if(username.contains(","))
             {
                 editText1.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Username", "You should not enter the " +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Username", "You should not enter the " +
                         " username with the letter: ,", SignUpActivity.this);
                 builder.show();
             }
             if (password.contains(",")){
                 editText2.setText("");
-                AlertDialog.Builder builder = Utils.onCreateDialog("Invalid Password", "You should not enter the" +
+                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password", "You should not enter the" +
                         " password with the letter: ,", SignUpActivity.this);
                 builder.show();
             }

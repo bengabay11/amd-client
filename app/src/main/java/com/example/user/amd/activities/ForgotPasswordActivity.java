@@ -67,7 +67,7 @@ public class ForgotPasswordActivity extends AppCompatActivity
     {
         String usernameOrEmail = editText1.getText().toString();
         if(usernameOrEmail.contains(",")){
-            AlertDialog.Builder dialog = Utils.onCreateDialog("Invalid Username or Email", "You should not enter the " +
+            AlertDialog.Builder dialog = Utils.CreateDialog("Invalid Username or Email", "You should not enter the " +
                     " username or the email with the letter: ,", ForgotPasswordActivity.this);
             dialog.show();
         }
