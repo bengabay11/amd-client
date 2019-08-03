@@ -120,7 +120,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
         if (encrypt) {
             // Encrypt the data
             try {
-                data = aesCipher.encrypt_string(data);
+                data = aesCipher.encrypt(data);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -235,7 +235,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                 if (!currentResponse.equals("")) {
                     // decrypt the response from server
                     try {
-                        currentResponse = aesCipher.decrypt_string(currentResponse);
+                        currentResponse = aesCipher.decrypt(currentResponse);
 
                     } catch (Exception e) {
                         e.printStackTrace();
