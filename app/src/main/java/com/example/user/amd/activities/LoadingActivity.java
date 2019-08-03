@@ -8,7 +8,6 @@ import com.example.user.amd.scanners.SuspiciousApps;
 import com.example.user.amd.tasks.SocketTask;
 
 
-// The activity present loading page until all the relevant data will send to the server.
 public class LoadingActivity extends AppCompatActivity
 {
     public static SocketTask socketTask;
@@ -21,10 +20,8 @@ public class LoadingActivity extends AppCompatActivity
         socketTask = MainActivity.socketTask;
         socketTask.setBuilder(LoadingActivity.this);
 
-        // Suspicious Apps check
         SuspiciousApps sa1 = new SuspiciousApps(getPackageManager(), socketTask);
         Thread suspiciousAppsThread = new Thread(sa1);
         suspiciousAppsThread.start();
-//        socketTask.getSuspiciousAppsClass(sa1);
     }
 }

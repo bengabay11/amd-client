@@ -1,25 +1,20 @@
 package com.example.user.amd.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.user.amd.Utils;
 import com.example.user.amd.R;
-import com.example.user.amd.handlers.handleLoginButtonAvailability;
+import com.example.user.amd.handlers.ButtonVisibilityHandler;
 import com.example.user.amd.tasks.SocketTask;
-import com.example.user.amd.watchers.passwordTextWatcher;
-import com.example.user.amd.watchers.usernameTextWatcher;
+import com.example.user.amd.watchers.EmptyTextWatcher;
 
-import java.io.*;
+
+import java.util.ArrayList;
 
 import static com.example.user.amd.tasks.SocketTask.USERNAME_KEY;
 
@@ -52,18 +47,19 @@ public class MainActivity extends AppCompatActivity
 
     private void initUI()
     {
-        TextWatcher editUsernameTextWatcher = new usernameTextWatcher(editTextUsername, loginButton, new handleLoginButtonAvailability());
-        TextWatcher editPasswordTextWatcher = new passwordTextWatcher(editTextPassword, loginButton, new handleLoginButtonAvailability());
-        editTextUsername.addTextChangedListener(editUsernameTextWatcher);
-        editTextPassword.addTextChangedListener(editPasswordTextWatcher);
-        View.OnFocusChangeListener focusWatcher = (v, hasFocus) -> {
-            if (!hasFocus)
-                crossXButtonUsername.setVisibility(View.GONE);
-            else
-                crossXButtonUsername.setVisibility(View.VISIBLE);
+        ArrayList<EditText> editTexts = new ArrayList<EditText>() {
+            {
+                add(editTextUsername);
+                add(editTextPassword);
+            }
         };
-        editTextUsername.setOnFocusChangeListener(focusWatcher);
-        editTextPassword.setOnFocusChangeListener(focusWatcher);
+        TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, loginButton);
+        editTextUsername.addTextChangedListener(emptyTextWatcher);
+        editTextPassword.addTextChangedListener(emptyTextWatcher);
+        ButtonVisibilityHandler crossXUsernameButtonVisibility = new ButtonVisibilityHandler(crossXButtonUsername);
+        ButtonVisibilityHandler crossXPasswordButtonVisibility = new ButtonVisibilityHandler(crossXButtonUsername);
+        editTextUsername.setOnFocusChangeListener(crossXUsernameButtonVisibility::handleFocus);
+        editTextPassword.setOnFocusChangeListener(crossXPasswordButtonVisibility::handleFocus);
     }
 
     private void runSocketTask()
@@ -77,8 +73,8 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-            String currentActivity = intent.getStringExtra("activity");
-            if(currentActivity.equals("ConnectedActivity"))
+            String previousActivity = intent.getStringExtra("activity");
+            if(previousActivity.equals("ConnectedActivity"))
             {
                 socketTask = new SocketTask(MainActivity.this);
                 socketTask.execute();

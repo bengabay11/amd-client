@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +11,13 @@ import android.widget.EditText;
 
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
+import com.example.user.amd.handlers.ButtonVisibilityHandler;
 import com.example.user.amd.tasks.SocketTask;
+import com.example.user.amd.watchers.EmptyTextWatcher;
+
+import java.util.ArrayList;
 
 
-// Activity of Create New Password after reset the password from the email.
 public class CreatePasswordActivity extends AppCompatActivity {
     SocketTask socketTask;
     private EditText editTextPassword;
@@ -36,7 +38,30 @@ public class CreatePasswordActivity extends AppCompatActivity {
         crossXButtonPassword = (Button) findViewById(R.id.cross_x_button_new_password);
         crossXButtonConfirmPassword = (Button) findViewById(R.id.cross_x_button_confirm_password);
 
-        handleUI();
+        initUI();
+    }
+
+    public void initUI()
+    {
+        // TODO: check if there is a way to do it in the xml file
+        createPasswordButton.setTextColor(Color.parseColor("#808080"));
+        createPasswordButton.setEnabled(false);
+
+        ArrayList<EditText> editTexts = new ArrayList<EditText>() {
+            {
+                add(editTextPassword);
+                add(editTextConfirmPassword);
+
+            }
+        };
+        TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, createPasswordButton);
+        editTextPassword.addTextChangedListener(emptyTextWatcher);
+        editTextConfirmPassword.addTextChangedListener(emptyTextWatcher);
+
+        ButtonVisibilityHandler passwordButtonVisibilityHandler = new ButtonVisibilityHandler(crossXButtonPassword);
+        ButtonVisibilityHandler confirmPasswordButtonVisibilityHandler = new ButtonVisibilityHandler(crossXButtonConfirmPassword);
+        editTextPassword.setOnFocusChangeListener(passwordButtonVisibilityHandler::handleFocus);
+        editTextConfirmPassword.setOnFocusChangeListener(confirmPasswordButtonVisibilityHandler::handleFocus);
     }
 
     @Override
@@ -45,21 +70,12 @@ public class CreatePasswordActivity extends AppCompatActivity {
     public void onChangePassword(View view){
         String newPassword = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
-        if(!newPassword.equals(confirmPassword) || newPassword.contains(","))
+        if(!newPassword.equals(confirmPassword))
         {
-            if (newPassword.contains(",")){
-                editTextPassword.setText("");
-                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password", "You should not enter the" +
-                        " password with the letter: ,", CreatePasswordActivity.this);
-                builder.show();
-            }
-            if(!newPassword.equals(confirmPassword))
-            {
-                editTextConfirmPassword.setText("");
-                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
-                        " have confirmed the password incorrectly. please try again.", CreatePasswordActivity.this);
-                builder.show();
-            }
+            editTextConfirmPassword.setText("");
+            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
+                    " have confirmed the password incorrectly. please try again.", CreatePasswordActivity.this);
+            builder.show();
         }
         else
         {
@@ -74,83 +90,5 @@ public class CreatePasswordActivity extends AppCompatActivity {
 
     public void resetConfirmPasswordText(View view) {
         editTextConfirmPassword.setText("");
-    }
-
-    public void handleUI()
-    {
-        int[] screenSize = Utils.getScreenSize(CreatePasswordActivity.this);
-        int width = screenSize[0], height=screenSize[1];
-        if(width == 1440 && height == 2560) {
-            createPasswordButton.setTextSize(20);
-
-            // handle buttons availability
-            createPasswordButton.setTextColor(Color.parseColor("#808080"));
-            createPasswordButton.setEnabled(false);
-            editTextPassword.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String newPassword = s.toString();
-                    String confirmPassword = editTextConfirmPassword.getText().toString();
-                    if (newPassword.equals("") || confirmPassword.equals(""))
-                    {
-                        createPasswordButton.setEnabled(false);
-                        createPasswordButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        createPasswordButton.setEnabled(true);
-                        createPasswordButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            editTextConfirmPassword.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String newPassword = editTextPassword.getText().toString();
-                    String confirmPassword = s.toString();
-                    if (newPassword.equals("") || confirmPassword.equals(""))
-                    {
-                        createPasswordButton.setEnabled(false);
-                        createPasswordButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        createPasswordButton.setEnabled(true);
-                        createPasswordButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            // handle the cross x buttons availability
-            editTextPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonPassword.setVisibility(View.GONE);
-                    else
-                        crossXButtonPassword.setVisibility(View.VISIBLE);
-                }
-            });
-            editTextConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonConfirmPassword.setVisibility(View.GONE);
-                    else
-                        crossXButtonConfirmPassword.setVisibility(View.VISIBLE);
-                }
-            });
-        }
     }
 }
