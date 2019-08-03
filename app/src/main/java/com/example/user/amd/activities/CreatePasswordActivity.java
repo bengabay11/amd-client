@@ -83,8 +83,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
         }
     }
 
-    public void resetPasswordText(View view)
-    {
+    public void resetPasswordText(View view) {
         editTextPassword.setText("");
     }
 
