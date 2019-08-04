@@ -6,11 +6,11 @@ import com.example.user.amd.tasks.SocketTask;
 
 
 // The thread will send the current OS version to the server.
-public class osReport implements Runnable
+public class OsVersion implements Runnable
 {
     private SocketTask socketTask;
 
-    public osReport(SocketTask socketTask)
+    public OsVersion(SocketTask socketTask)
     {
         this.socketTask = socketTask;
     }

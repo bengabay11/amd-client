@@ -13,13 +13,13 @@ import java.util.List;
 
 
 // Thread that sends all the applications info to the server.
-public class SuspiciousApps implements Runnable
+public class Apps implements Runnable
 {
     private PackageManager pm1;
     private SocketTask socketTask;
     private boolean continueSend = false;
 
-    public SuspiciousApps(PackageManager pm1, SocketTask socketTask)
+    public Apps(PackageManager pm1, SocketTask socketTask)
     {
         this.pm1 = pm1;
         this.socketTask = socketTask;
@@ -43,27 +43,27 @@ public class SuspiciousApps implements Runnable
         socketTask.send("CheckApps");
     }
 
-    // The SocketTask thread inform the SuspiciousApps thread that he can send another
+    // The SocketTask thread inform the Apps thread that he can send another
     // part of the data.
     public void continueSend()
     {
-        Log.d(SuspiciousApps.class.getSimpleName(), "Continue sending!");
+        Log.d(Apps.class.getSimpleName(), "Continue sending!");
         continueSend = true;
     }
 
     // The function stops the thread from sending data until he gets response from the server.
     private void stopSend()
     {
-        Log.d(SuspiciousApps.class.getSimpleName(), "Stop sending!");
+        Log.d(Apps.class.getSimpleName(), "Stop sending!");
         continueSend = false;
         boolean printOnce = true;
         while(!continueSend){
             if(printOnce){
                 printOnce = false;
-                Log.d(SuspiciousApps.class.getSimpleName(), "Stuck in while loop...");
+                Log.d(Apps.class.getSimpleName(), "Stuck in while loop...");
             }
         }
-        Log.d(SuspiciousApps.class.getSimpleName(), "Real Continue sending!");
+        Log.d(Apps.class.getSimpleName(), "Real Continue sending!");
     }
 
     // The function gets all the data of the apps that installed on the device: their name, their
@@ -107,7 +107,7 @@ public class SuspiciousApps implements Runnable
             dataToSend += "&";
         }
         dataToSend = dataToSend.substring(0, dataToSend.length()-1);
-        Log.d(SuspiciousApps.class.getSimpleName(), "CheckApps Data Length: " + dataToSend.length());
+        Log.d(Apps.class.getSimpleName(), "CheckApps Data Length: " + dataToSend.length());
         return dataToSend;
     }
 

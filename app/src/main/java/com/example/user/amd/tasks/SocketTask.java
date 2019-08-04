@@ -12,14 +12,14 @@ import android.view.View;
 
 import com.example.user.amd.Config;
 import com.example.user.amd.Utils;
-import com.example.user.amd.scanners.CheckProcesses;
+import com.example.user.amd.scanners.Apps;
+import com.example.user.amd.scanners.Processes;
 import com.example.user.amd.activities.ConnectedActivity;
 import com.example.user.amd.activities.CreatePasswordActivity;
 import com.example.user.amd.activities.LoadingActivity;
 import com.example.user.amd.activities.MainActivity;
 import com.example.user.amd.activities.SignUpActivity;
-import com.example.user.amd.scanners.SmishingDetect;
-import com.example.user.amd.scanners.SuspiciousApps;
+import com.example.user.amd.scanners.Smishing;
 import com.example.user.amd.scanners.UnknownSources;
 import com.example.user.amd.encryption.AESCipher;
 
@@ -37,17 +37,17 @@ public class SocketTask extends AsyncTask<String,String ,String >
     private String dataToSend = "";
     private String response = "";
     private Activity currentActivity;
-    private SuspiciousApps sa1;
+    private Apps sa1;
     private boolean socketError= false;
     private boolean send = false;
     private boolean finish = false;
     private ConnectedActivity connected_activity;
     private UnknownSources unknownSources;
     private ArrayList listNotifications;
-    private SmishingDetect sm1;
+    private Smishing sm1;
     private AESCipher aesCipher;
     private String AESKey;
-    private CheckProcesses cp1;
+    private Processes cp1;
 
     public SocketTask(MainActivity activity)
     {
@@ -188,11 +188,11 @@ public class SocketTask extends AsyncTask<String,String ,String >
         }
     }
 
-    public void getSuspiciousAppsClass(SuspiciousApps sa1) {
+    public void getSuspiciousAppsClass(Apps sa1) {
         this.sa1 = sa1;
     }
 
-    public void getCheckProcessesClass(CheckProcesses cp1) {
+    public void getCheckProcessesClass(Processes cp1) {
         this.cp1 = cp1;
     }
 
@@ -200,7 +200,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
         this.unknownSources = un1;
     }
 
-    public void getSmishingDetectClass(SmishingDetect sm1) {
+    public void getSmishingDetectClass(Smishing sm1) {
         this.sm1 = sm1;
     }
 
@@ -370,7 +370,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
                     if(currentResponse.equals("CheckApps part accepted")){
                         sa1.continueSend();
                     }
-                    if(currentResponse.equals("CheckProcesses part accepted")){
+                    if(currentResponse.equals("Processes part accepted")){
                         cp1.continueSend();
                     }
                     if (currentResponse.split(",")[0].equals("Notification")) {

