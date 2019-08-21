@@ -22,7 +22,9 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
 
-public class AESCipher implements com.example.user.amd.interfaces.Cipher {
+import com.example.user.amd.interfaces.ICipher;
+
+public class AESICipher implements ICipher {
     private String key;
     private byte[] keyBytes;
 
@@ -31,12 +33,12 @@ public class AESCipher implements com.example.user.amd.interfaces.Cipher {
 
     private static byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-    public AESCipher(String secretKey)
+    public AESICipher(String secretKey)
     {
         key = secretKey;
         SecureRandom random = new SecureRandom();
-        AESCipher.ivBytes = new byte[16];
-        random.nextBytes(AESCipher.ivBytes);
+        AESICipher.ivBytes = new byte[16];
+        random.nextBytes(AESICipher.ivBytes);
     }
 
     @Override
@@ -69,8 +71,8 @@ public class AESCipher implements com.example.user.amd.interfaces.Cipher {
         Cipher cipher = Cipher.getInstance(cipherTransformation);
 
         SecureRandom random = new SecureRandom();
-        AESCipher.ivBytes = new byte[16];
-        random.nextBytes(AESCipher.ivBytes);
+        AESICipher.ivBytes = new byte[16];
+        random.nextBytes(AESICipher.ivBytes);
 
         cipher.init(Cipher.ENCRYPT_MODE, newKey, random);
         byte[] destination = new byte[ivBytes.length + mes.length];

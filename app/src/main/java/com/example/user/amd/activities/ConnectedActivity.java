@@ -1,7 +1,6 @@
 package com.example.user.amd.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,18 +11,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,11 +30,17 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
-import com.example.user.amd.scanners.CheckProcesses;
-import com.example.user.amd.scanners.SmishingDetect;
+import com.example.user.amd.handlers.ButtonVisibilityHandler;
+import com.example.user.amd.scanners.Processes;
+import com.example.user.amd.scanners.Smishing;
 import com.example.user.amd.scanners.UnknownSources;
-import com.example.user.amd.scanners.osReport;
+import com.example.user.amd.scanners.OsVersion;
 import com.example.user.amd.tasks.SocketTask;
+import com.example.user.amd.watchers.EmptyTextWatcher;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 public class ConnectedActivity extends AppCompatActivity
@@ -63,11 +65,11 @@ public class ConnectedActivity extends AppCompatActivity
     private Button newEmailButton;
     private EditText editTextNewEmail;
     private Button crossXButtonUsername;
-    private Button crossXButtonPassword;
+    private Button crossXButtonNewPassword;
     private Button crossXButtonConfirmPassword;
     private Button crossXButtonEmail;
     private static String newUsername;
-    private SmishingDetect sm1;
+    private Smishing sm1;
     private Switch notificationsSwitch;
     private TextView notificationsTextView;
     private AHBottomNavigation bottomNavigation;
@@ -114,7 +116,7 @@ public class ConnectedActivity extends AppCompatActivity
         newEmailButton = (Button) findViewById(R.id.change_email_button2);
         crossXButtonUsername = (Button) findViewById(R.id.cross_x_button_new_username);
         crossXButtonOldPassword = (Button) findViewById(R.id.cross_x_button_old_password);
-        crossXButtonPassword = (Button) findViewById(R.id.cross_x_button_new_password);
+        crossXButtonNewPassword = (Button) findViewById(R.id.cross_x_button_new_password);
         crossXButtonConfirmPassword = (Button) findViewById(R.id.cross_x_button_confirm_password);
         crossXButtonEmail = (Button) findViewById(R.id.cross_x_button_new_email);
         notificationsSwitch = (Switch) findViewById(R.id.notifications_switch);
@@ -122,135 +124,187 @@ public class ConnectedActivity extends AppCompatActivity
         helpScrollView = (ScrollView)  findViewById(R.id.help_scroll_view);
         helpText = (TextView) findViewById(R.id.help_text);
 
-        textViewTitle.setText("Hello " + username + "!");
+        initUI();
+        startDetects();
+    }
+
+    private void initBottomNavigation() {
         // Create bottom bar.
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Home Page",
+        AHBottomNavigationItem homePage = new AHBottomNavigationItem("Home Page",
                 R.drawable.home);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Notifications",
+        AHBottomNavigationItem notificationsPage = new AHBottomNavigationItem("Notifications",
                 R.drawable.bell);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Settings",
+        AHBottomNavigationItem settingsPage = new AHBottomNavigationItem("Settings",
                 R.drawable.settings);
 
-        bottomNavigation.addItem(item1);
-        bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item3);
+        bottomNavigation.addItem(homePage);
+        bottomNavigation.addItem(notificationsPage);
+        bottomNavigation.addItem(settingsPage);
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
         bottomNavigation.setAccentColor(Color.WHITE);
         bottomNavigation.setInactiveColor(Color.BLACK);
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#1A237E")); // BLUE
 
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener()
-        {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected)
+        // TODO: create activity for each tab
+        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+            if (position == 0)
             {
-                helpText.setVisibility(View.GONE);
-                helpScrollView.setVisibility(View.GONE);
-                backButton.setVisibility(View.GONE);
-                newUsernameButton.setVisibility(View.GONE);
-                editTextNewUsername.setVisibility(View.GONE);
-                editTextOldPassword.setVisibility(View.GONE);
-                crossXButtonOldPassword.setVisibility(View.GONE);
-                newPasswordButton.setVisibility(View.GONE);
-                editTextNewPassword.setVisibility(View.GONE);
-                editTextConfirmPassword.setVisibility(View.GONE);
-                editTextNewEmail.setVisibility(View.GONE);
-                newEmailButton.setVisibility(View.GONE);
-                if (position == 0)
-                {
-                    textViewTitle.setVisibility(View.VISIBLE);
-                    textViewTitle.setText("Hello " + username + "!");
-                    textViewWelcomeUser.setText("As long as you're connected, the AMD server" +
-                            " detects attacks on your phone.");
-                    textViewWelcomeUser.setVisibility(View.VISIBLE);
-                    image1.setVisibility(View.VISIBLE);
-                    notifications.setVisibility(View.GONE);
-                    clearNotificationsButton.setVisibility(View.GONE);
-                    changeUsernameButton.setVisibility(View.GONE);
-                    helpButton.setVisibility(View.GONE);
-                    changePasswordButton.setVisibility(View.GONE);
-                    changeEmailButton.setVisibility(View.GONE);
-                    deleteUserButton.setVisibility(View.GONE);
-                    logOutButton.setVisibility(View.GONE);
-                    notificationsSwitch.setVisibility(View.GONE);
-                    notificationsTextView.setVisibility(View.GONE);
-                    notificationsTitle.setVisibility(View.GONE);
-                }
-                if (position == 1)
-                {
-                    textViewTitle.setVisibility(View.GONE);
-                    notificationsTitle.setVisibility(View.VISIBLE);
-                    textViewWelcomeUser.setVisibility(View.GONE);
-                    image1.setVisibility(View.GONE);
-                    clearNotificationsButton.setVisibility(View.GONE);
-                    notifications.setVisibility(View.GONE);
-                    changeUsernameButton.setVisibility(View.GONE);
-                    helpButton.setVisibility(View.GONE);
-                    changePasswordButton.setVisibility(View.GONE);
-                    changeEmailButton.setVisibility(View.GONE);
-                    deleteUserButton.setVisibility(View.GONE);
-                    logOutButton.setVisibility(View.GONE);
-                    notificationsSwitch.setVisibility(View.GONE);
-                    notificationsTextView.setVisibility(View.GONE);
-                    bottomNavigation.setNotification("", 1);
-                    if(notificationsSwitch.isChecked()){
-                        notificationsCount = 0;
-                        notifications.setVisibility((View.VISIBLE));
-                        clearNotificationsButton.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        textViewWelcomeUser.setVisibility(View.VISIBLE);
-                        textViewWelcomeUser.setText("Receiving notifications is not approved" +
-                                " in the settings.");
-                    }
-                }
-                if (position == 2)
-                {
-                    textViewTitle.setVisibility(View.VISIBLE);
-                    textViewTitle.setText("Settings");
-                    notificationsTitle.setVisibility(View.GONE);
-                    notificationsTextView.setVisibility(View.VISIBLE);
-                    notificationsSwitch.setVisibility(View.VISIBLE);
-                    changeUsernameButton.setVisibility(View.VISIBLE);
-                    helpButton.setVisibility(View.VISIBLE);
-                    changePasswordButton.setVisibility(View.VISIBLE);
-                    changeEmailButton.setVisibility(View.VISIBLE);
-                    deleteUserButton.setVisibility(View.VISIBLE);
-                    logOutButton.setVisibility(View.VISIBLE);
-                    notifications.setVisibility(View.GONE);
-                    clearNotificationsButton.setVisibility(View.GONE);
-                    textViewWelcomeUser.setVisibility(View.GONE);
-                    image1.setVisibility(View.GONE);
-                }
-                return true;
+                showHomePageTab();
+            }
+            if (position == 1)
+            {
+                showNotificationsTab();
+            }
+            if (position == 2)
+            {
+                showNotificationsTab();
+            }
+            return true;
+        });
+    }
+
+    private void showHomePageTab() {
+        textViewTitle.setText("Hello " + username + "!");
+        textViewWelcomeUser.setText("As long as you're connected, the AMD server detects attacks on your phone.");
+
+        List<View> visibleViews = Arrays.asList(textViewTitle, textViewWelcomeUser, image1);
+        List<View> hiddenViews = Arrays.asList(notifications, clearNotificationsButton,
+                changeUsernameButton, helpButton, changePasswordButton, changeEmailButton,
+                deleteUserButton, logOutButton, notificationsSwitch, notificationsTextView,
+                notificationsTitle);
+        showViews(visibleViews);
+        hideViews(hiddenViews);
+    }
+
+    private void showNotificationsTab() {
+        textViewTitle.setVisibility(View.GONE);
+        textViewWelcomeUser.setVisibility(View.GONE);
+        image1.setVisibility(View.GONE);
+        clearNotificationsButton.setVisibility(View.GONE);
+        notifications.setVisibility(View.GONE);
+        changeUsernameButton.setVisibility(View.GONE);
+        helpButton.setVisibility(View.GONE);
+        changePasswordButton.setVisibility(View.GONE);
+        changeEmailButton.setVisibility(View.GONE);
+        deleteUserButton.setVisibility(View.GONE);
+        logOutButton.setVisibility(View.GONE);
+        notificationsSwitch.setVisibility(View.GONE);
+        notificationsTextView.setVisibility(View.GONE);
+        bottomNavigation.setNotification("", 1);
+        notificationsTitle.setVisibility(View.VISIBLE);
+        if(notificationsSwitch.isChecked()){
+            notificationsCount = 0;
+            notifications.setVisibility((View.VISIBLE));
+            clearNotificationsButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            textViewWelcomeUser.setVisibility(View.VISIBLE);
+            textViewWelcomeUser.setText("Receiving notifications is not approved" +
+                    " in the settings.");
+        }
+    }
+
+    private void showSettingsTab() {
+        textViewTitle.setText("Settings");
+        textViewTitle.setVisibility(View.VISIBLE);
+        notificationsTextView.setVisibility(View.VISIBLE);
+        notificationsSwitch.setVisibility(View.VISIBLE);
+        changeUsernameButton.setVisibility(View.VISIBLE);
+        helpButton.setVisibility(View.VISIBLE);
+        changePasswordButton.setVisibility(View.VISIBLE);
+        changeEmailButton.setVisibility(View.VISIBLE);
+        deleteUserButton.setVisibility(View.VISIBLE);
+        logOutButton.setVisibility(View.VISIBLE);
+        notificationsTitle.setVisibility(View.GONE);
+        notifications.setVisibility(View.GONE);
+        clearNotificationsButton.setVisibility(View.GONE);
+        textViewWelcomeUser.setVisibility(View.GONE);
+        image1.setVisibility(View.GONE);
+    }
+
+    private void initUI()
+    {
+        textViewTitle.setText("Hello " + username + "!");
+
+        initBottomNavigation();
+
+        notificationsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isChecked() && notificationsCount > 0) {
+                bottomNavigation.setNotification(Integer.toString(notificationsCount), 1);
+            }
+            else{
+                bottomNavigation.setNotification("", 1);
             }
         });
 
-        handleUI();
-        try{
-            socketTask.setBuilder(ConnectedActivity.this);
-            socketTask.setContextConnected(this);
+        // TODO: check if it can be done from the xml file
+        newUsernameButton.setEnabled(false);
+        newUsernameButton.setTextColor(Color.parseColor("#808080"));
+        newPasswordButton.setEnabled(false);
+        newPasswordButton.setTextColor(Color.parseColor("#808080"));
+        newEmailButton.setEnabled(false);
+        newEmailButton.setTextColor(Color.parseColor("#808080"));
+
+        List<EditText> newUsernameEditTexts = Collections.singletonList(editTextNewUsername);
+        List<EditText> newPasswordEditTexts = Arrays.asList(editTextOldPassword,
+                editTextNewPassword, editTextConfirmPassword);
+        List<EditText> newEmailEditTexts = Collections.singletonList(editTextNewEmail);
+
+        TextWatcher newUsernameEmptyTextWatcher =
+                new EmptyTextWatcher(newUsernameEditTexts, newUsernameButton);
+        TextWatcher newPasswordEmptyTextWatcher =
+                new EmptyTextWatcher(newPasswordEditTexts, newPasswordButton);
+        TextWatcher newEmailEmptyTextWatcher =
+                new EmptyTextWatcher(newEmailEditTexts, newEmailButton);
+
+        editTextNewUsername.addTextChangedListener(newUsernameEmptyTextWatcher);
+        editTextOldPassword.addTextChangedListener(newPasswordEmptyTextWatcher);
+        editTextNewPassword.addTextChangedListener(newPasswordEmptyTextWatcher);
+        editTextConfirmPassword.addTextChangedListener(newPasswordEmptyTextWatcher);
+        editTextNewEmail.addTextChangedListener(newEmailEmptyTextWatcher);
+
+        ButtonVisibilityHandler crossXUsernameButtonHandler = new ButtonVisibilityHandler(crossXButtonUsername);
+        ButtonVisibilityHandler crossXOldPasswordButtonHandler = new ButtonVisibilityHandler(crossXButtonOldPassword);
+        ButtonVisibilityHandler crossXNewPasswordButtonHandler = new ButtonVisibilityHandler(crossXButtonNewPassword);
+        ButtonVisibilityHandler crossXConfirmPasswordButtonHandler = new ButtonVisibilityHandler(crossXButtonConfirmPassword);
+        ButtonVisibilityHandler crossXEmailButtonHandler = new ButtonVisibilityHandler(crossXButtonEmail);
+
+        editTextNewUsername.setOnFocusChangeListener(crossXUsernameButtonHandler::handleFocus);
+        editTextOldPassword.setOnFocusChangeListener(crossXOldPasswordButtonHandler::handleFocus);
+        editTextNewPassword.setOnFocusChangeListener(crossXNewPasswordButtonHandler::handleFocus);
+        editTextConfirmPassword.setOnFocusChangeListener(crossXConfirmPasswordButtonHandler::handleFocus);
+        editTextNewEmail.setOnFocusChangeListener(crossXEmailButtonHandler::handleFocus);
+    }
+
+    private void hideViews(List<View> views) {
+        for (View view: views) {
+            view.setVisibility(View.GONE);
         }
-        catch (Exception ignored){}
-        try {
-            startDetects();
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
+    }
+
+    private void showViews(List<View> views) {
+        for (View view: views) {
+            view.setVisibility(View.VISIBLE);
         }
     }
 
     // The function starts the detects.
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void startDetects() throws Settings.SettingNotFoundException
-    {
+    public void startDetects() {
+        try{
+            socketTask.setBuilder(ConnectedActivity.this);
+            socketTask.setContextConnected(this);
+        }
+        catch (Exception ignored){}
+
         // OS version check
-        osReport os1 = new osReport(socketTask);
+        OsVersion os1 = new OsVersion(socketTask);
         Thread osReportThread = new Thread(os1);
         osReportThread.start();
 
         // Check Processes
-        CheckProcesses chp = new CheckProcesses(socketTask);
+        Processes chp = new Processes(socketTask);
         Thread checkProcessesThread = new Thread(chp);
         checkProcessesThread.start();
 
@@ -262,7 +316,7 @@ public class ConnectedActivity extends AppCompatActivity
         UnknownSourcesThread.start();
 
         // Check suspicious sms
-//        sm1 = new SmishingDetect(socketTask, ConnectedActivity.this);
+//        sm1 = new Smishing(socketTask, ConnectedActivity.this);
 //        Thread smishingDetectThread = new Thread(sm1);
 //        smishingDetectThread.start();
 
@@ -383,33 +437,17 @@ public class ConnectedActivity extends AppCompatActivity
         logOutButton.setVisibility(View.GONE);
     }
 
-    // The function check if the password confirmed correctly and send it to the server.
     public void onChangePasswordButton(View view)
     {
         String oldPassword = editTextOldPassword.getText().toString();
         String newPassword = editTextNewPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
-        if(!newPassword.equals(confirmPassword) || newPassword.contains(",") || oldPassword.contains(","))
+        if(!newPassword.equals(confirmPassword))
         {
-            if (oldPassword.contains(",")){
-                editTextOldPassword.setText("");
-                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Old Password", "You should not enter the" +
-                        " password with the letter: ,", ConnectedActivity.this);
-                builder.show();
-            }
-            if (newPassword.contains(",")){
-                editTextNewPassword.setText("");
-                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password", "You should not enter the" +
-                        " password with the letter: ,", ConnectedActivity.this);
-                builder.show();
-            }
-            if(!newPassword.equals(confirmPassword))
-            {
-                editTextConfirmPassword.setText("");
-                AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
-                        " have confirmed the password incorrectly. please try again.", ConnectedActivity.this);
-                builder.show();
-            }
+            editTextConfirmPassword.setText("");
+            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
+                    " have confirmed the password incorrectly. please try again.", ConnectedActivity.this);
+            builder.show();
         }
         else
         {
@@ -417,7 +455,6 @@ public class ConnectedActivity extends AppCompatActivity
         }
     }
 
-    // The function present the change email page.
     public void onChangeEmail(View view)
     {
         newEmailButton.setVisibility(View.VISIBLE);
@@ -434,7 +471,6 @@ public class ConnectedActivity extends AppCompatActivity
         logOutButton.setVisibility(View.GONE);
     }
 
-    // The function check if the new email is valid and send it to the server.
     public void onChangeEmailButton(View view)
     {
         String newEmail = editTextNewEmail.getText().toString();
@@ -449,40 +485,26 @@ public class ConnectedActivity extends AppCompatActivity
         }
     }
 
-    // The function shows a verify dialog to delete the user, before she send delete user
-    // request to the server.
     public void onDeleteUser(View view)
     {
         AlertDialog.Builder deletePopUp = new AlertDialog.Builder(ConnectedActivity.this);
         deletePopUp.setTitle("Confirm Delete");
         deletePopUp.setMessage("Are you sure you want to delete your account?");
-        deletePopUp.setPositiveButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {}});
-        deletePopUp.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id)
-            {
-                socketTask.send("DeleteUser");
-            }});
+        deletePopUp.setPositiveButton("No", (dialog, id) -> {});
+        deletePopUp.setNegativeButton("Yes", (dialog, id) -> socketTask.send("DeleteUser"));
         deletePopUp.show();
     }
 
-    // The function shows a verify dialog to logout, before she send logout request to the server.
     public void onLogOut(View view)
     {
         AlertDialog.Builder exitVerificationPopUp = new AlertDialog.Builder(ConnectedActivity.this);
         exitVerificationPopUp.setTitle("Confirm Exit");
         exitVerificationPopUp.setMessage("Are you sure you want to exit your account?");
-        exitVerificationPopUp.setPositiveButton("No", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {}});
-        exitVerificationPopUp.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id)
-            {
-                socketTask.send("LogOut");
-            }});
+        exitVerificationPopUp.setPositiveButton("No", (dialog, id) -> {});
+        exitVerificationPopUp.setNegativeButton("Yes", (dialog, id) -> socketTask.send("LogOut"));
         exitVerificationPopUp.show();
     }
 
-    // The function gets notification and present it in the notifications page.
     public void addNotification(View view, String notification)
     {
         Log.d(ConnectedActivity.class.getSimpleName(), "Get notification: " + notification);
@@ -502,7 +524,6 @@ public class ConnectedActivity extends AppCompatActivity
         }
     }
 
-    // The function shows the settings page.
     public void backSettings(View view)
     {
         editTextNewUsername.setText("");
@@ -510,6 +531,7 @@ public class ConnectedActivity extends AppCompatActivity
         editTextOldPassword.setText("");
         editTextNewPassword.setText("");
         editTextConfirmPassword.setText("");
+
         helpButton.setVisibility(View.VISIBLE);
         textViewTitle.setVisibility(View.VISIBLE);
         textViewTitle.setText("Settings");
@@ -536,10 +558,8 @@ public class ConnectedActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        Log.d(SmishingDetect.class.getSimpleName(), "check permission...");
-        // BEGIN_INCLUDE(onRequestPermissionsResult)
+                                           @NonNull int[] grantResults) {
+        Log.d(Smishing.class.getSimpleName(), "check permission...");
         if (requestCode == 0)
         {
             // Request for camera permission.
@@ -550,241 +570,22 @@ public class ConnectedActivity extends AppCompatActivity
         }
     }
 
-    // The function delete the text from the editTextOldPassword, when the cross x button is pressed.
-    public void resetOldPasswordText(View view) {editTextOldPassword.setText("");}
+    public void resetOldPasswordText(View view) { editTextOldPassword.setText(""); }
 
-    // The function delete the text from the editTextNewEmail, when the cross x button is pressed.
-    public void resetNewEmailText(View view)
-    {
-        editTextNewEmail.setText("");
-    }
+    public void resetNewEmailText(View view) { editTextNewEmail.setText(""); }
 
-    // The function delete the text from editTextConfirmPassword, when the cross x button is pressed.
-    public void resetConfirmPasswordText(View view)
-    {
-        editTextConfirmPassword.setText("");
-    }
+    public void resetConfirmPasswordText(View view) { editTextConfirmPassword.setText(""); }
 
-    // The function delete the text from the editTextPassword, when the cross x button is pressed.
-    public void resetPasswordText(View view)
-    {
-        editTextNewPassword.setText("");
-    }
+    public void resetPasswordText(View view) { editTextNewPassword.setText(""); }
 
-    // The function delete the text from the editTextNewUsername, when the cross x button is pressed.
-    public void resetUsernameText(View view)
-    {
-        editTextNewUsername.setText("");
-    }
+    public void resetUsernameText(View view) { editTextNewUsername.setText(""); }
 
-    //The function override the original function, in order for when the user click on the back
-    // button, nothing will happen.
     @Override
     public void onBackPressed() {}
 
-    // The function clear the notifications.
     public void onClearNotifications(View view) {
         notifications.setText("");
         notificationsCount = 0;
         bottomNavigation.setNotification("", 1);
-    }
-
-    // The function handle the UI according to the screen size.
-    // The function also take care of the buttons visibility in the UI, and other important things.
-    private void handleUI()
-    {
-        int[] screenSize = Utils.getScreenSize(ConnectedActivity.this);
-        int width = screenSize[0], height=screenSize[1];
-        if(width == 1440 && height == 2560)
-        {
-            changeUsernameButton.setTextSize(20);
-            changePasswordButton.setTextSize(20);
-            changeEmailButton.setTextSize(20);
-            deleteUserButton.setTextSize(20);
-            logOutButton.setTextSize(20);
-            backButton.setTextSize(15);
-
-            // act according to notifications switch.
-            notificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (buttonView.isChecked() && notificationsCount > 0) {
-                        bottomNavigation.setNotification(Integer.toString(notificationsCount), 1);
-                    }
-                    else{
-                        bottomNavigation.setNotification("", 1);
-                    }
-                }});
-
-            // handle buttons availability
-            newUsernameButton.setEnabled(false);
-            newUsernameButton.setTextColor(Color.parseColor("#808080"));
-            newPasswordButton.setEnabled(false);
-            newPasswordButton.setTextColor(Color.parseColor("#808080"));
-            newEmailButton.setEnabled(false);
-            newEmailButton.setTextColor(Color.parseColor("#808080"));
-
-            // handle the cross x buttons
-            editTextNewUsername.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonUsername.setVisibility(View.GONE);
-                    else
-                        crossXButtonUsername.setVisibility(View.VISIBLE);
-                }
-            });
-            editTextOldPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonOldPassword.setVisibility(View.GONE);
-                    else
-                        crossXButtonOldPassword.setVisibility(View.VISIBLE);
-                }
-            });
-            editTextNewPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonPassword.setVisibility(View.GONE);
-                    else
-                        crossXButtonPassword.setVisibility(View.VISIBLE);
-                }
-            });
-            editTextConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonConfirmPassword.setVisibility(View.GONE);
-                    else
-                        crossXButtonConfirmPassword.setVisibility(View.VISIBLE);
-                }
-            });
-            editTextNewEmail.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (!hasFocus)
-                        crossXButtonEmail.setVisibility(View.GONE);
-                    else
-                        crossXButtonEmail.setVisibility(View.VISIBLE);
-                }});
-            // handle the buttons visibility according to the edit texts.
-            editTextNewUsername.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String username = s.toString();
-                    if (username.equals(""))
-                    {
-                        newUsernameButton.setEnabled(false);
-                        newUsernameButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        newUsernameButton.setEnabled(true);
-                        newUsernameButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            editTextNewEmail.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String email = s.toString();
-                    if (email.equals("")) {
-                        newEmailButton.setEnabled(false);
-                        newEmailButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        newEmailButton.setEnabled(true);
-                        newEmailButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            editTextOldPassword.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String oldPassword = s.toString();
-                    String password = editTextNewPassword.getText().toString();
-                    String confirmPassword = editTextConfirmPassword.getText().toString();
-                    if (password.equals("") || confirmPassword.equals("") ||
-                            oldPassword.equals("")) {
-                        newPasswordButton.setEnabled(false);
-                        newPasswordButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        newPasswordButton.setEnabled(true);
-                        newPasswordButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            editTextNewPassword.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String password = s.toString();
-                    String oldPassword = editTextOldPassword.getText().toString();
-                    String confirmPassword = editTextConfirmPassword.getText().toString();
-                    if (password.equals("") || confirmPassword.equals("") ||
-                            oldPassword.equals("")) {
-                        newPasswordButton.setEnabled(false);
-                        newPasswordButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        newPasswordButton.setEnabled(true);
-                        newPasswordButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            editTextConfirmPassword.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String password = editTextConfirmPassword.getText().toString();
-                    String confirmPassword = s.toString();
-                    String oldPassword = editTextOldPassword.getText().toString();
-                    if (password.equals("") || confirmPassword.equals("") ||
-                            oldPassword.equals("")) {
-                        newPasswordButton.setEnabled(false);
-                        newPasswordButton.setTextColor(Color.parseColor("#808080"));
-                    } else {
-                        newPasswordButton.setEnabled(true);
-                        newPasswordButton.setTextColor(Color.parseColor("#FFFFFF"));
-                    }
-                }
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-        }
     }
 }

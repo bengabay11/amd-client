@@ -21,7 +21,7 @@ import com.example.user.amd.activities.MainActivity;
 import com.example.user.amd.activities.SignUpActivity;
 import com.example.user.amd.scanners.Smishing;
 import com.example.user.amd.scanners.UnknownSources;
-import com.example.user.amd.encryption.AESCipher;
+import com.example.user.amd.encryption.AESICipher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +45,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
     private UnknownSources unknownSources;
     private ArrayList listNotifications;
     private Smishing sm1;
-    private AESCipher aesCipher;
+    private AESICipher aesCipher;
     private String AESKey;
     private Processes cp1;
 
@@ -91,7 +91,7 @@ public class SocketTask extends AsyncTask<String,String ,String >
             if(response.split(",")[0].equals("AESKey"))
                 AESKey = response.split(",")[1];
             Log.d(SocketTask.class.getSimpleName(), "AES Key:" + AESKey);
-            aesCipher = new AESCipher(AESKey);
+            aesCipher = new AESICipher(AESKey);
 
             // Start the receive and send threads.
             Thread writeThread = new Thread(new WriteData(writer));

@@ -3,10 +3,10 @@ package com.example.user.amd.handlers;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.user.amd.interfaces.ItemFocusHandler;
+import com.example.user.amd.interfaces.IViewFocusHandler;
 
 
-public class ButtonVisibilityHandler implements ItemFocusHandler {
+public class ButtonVisibilityHandler implements IViewFocusHandler {
     private Button button;
 
     public ButtonVisibilityHandler(Button button) {
