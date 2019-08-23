@@ -1,5 +1,6 @@
 package com.example.user.amd.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Config;
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
 import com.example.user.amd.handlers.ButtonVisibilityHandler;
@@ -32,7 +34,8 @@ public class CreatePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        socketTask = MainActivity.socketTask;
+        Intent intent = getIntent();
+        socketTask = (SocketTask) intent.getSerializableExtra(Config.SOCKET_TASk_KEY);
         editTextPassword = (EditText) findViewById(R.id.new_password);
         editTextConfirmPassword = (EditText) findViewById(R.id.confirm_password);
         createPasswordButton = (Button) findViewById(R.id.change_password_button);

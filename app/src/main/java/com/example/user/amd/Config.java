@@ -15,5 +15,6 @@ public class Config
     public static final int SERVER_PORT = 6000;
     public static final String SERVER_IP = "192.168.1.46";
 
-    public final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
+    public static final String USERNAME_KEY = "com.example.user.java.com.amd.USERNAME";
+    public static final String SOCKET_TASk_KEY = "com.example.user.java.com.amd.SOCKET_TASK";
 }

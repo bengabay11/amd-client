@@ -45,7 +45,7 @@ public class Smishing implements Runnable
 
     // The function send to the server all the sms inbox of the device.
     private void sendInbox(){
-        socketTask.getSmishingDetectClass(this);
+//        socketTask.getSmishingDetectClass(this);
         String dataToSend = "";
         Log.d(Smishing.class.getSimpleName(), "Starting read SMS inbox...");
         Uri uriSMSURI = Uri.parse(Config.SMS_URI_INBOX);

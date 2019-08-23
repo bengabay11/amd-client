@@ -29,7 +29,7 @@ public class Apps implements Runnable
     // their permissions, and their installer.
     public void run()
     {
-        socketTask.getSuspiciousAppsClass(this);
+//        socketTask.getSuspiciousAppsClass(this);
         String dataToSend = getApplicationsInfo();
         while (dataToSend.length() > 1024) {
             socketTask.send("CheckAppsData," + dataToSend.substring(0, 1024));

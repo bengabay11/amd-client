@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Config;
 import com.example.user.amd.R;
 import com.example.user.amd.handlers.ButtonVisibilityHandler;
 import com.example.user.amd.tasks.SocketTask;
@@ -16,8 +17,6 @@ import com.example.user.amd.watchers.EmptyTextWatcher;
 
 import java.util.Collections;
 import java.util.List;
-
-import static com.example.user.amd.tasks.SocketTask.USERNAME_KEY;
 
 
 public class ForgotPasswordActivity extends AppCompatActivity
@@ -34,9 +33,9 @@ public class ForgotPasswordActivity extends AppCompatActivity
         setContentView(R.layout.activity_forgot_password);
 
         Intent intent = getIntent();
-        String username = intent.getStringExtra(USERNAME_KEY);
+        String username = intent.getStringExtra(Config.USERNAME_KEY);
+        socketTask = (SocketTask) intent.getSerializableExtra(Config.SOCKET_TASk_KEY);
 
-        socketTask = MainActivity.socketTask;
         socketTask.setBuilder(ForgotPasswordActivity.this);
         editTextUsername = (EditText)findViewById(R.id.edit_text_username);
         editTextUsername.setText(username);

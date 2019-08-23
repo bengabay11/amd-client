@@ -21,7 +21,7 @@ public class Processes implements Runnable
     {
         while (true)
         {
-            socketTask.getCheckProcessesClass(this);
+//            socketTask.getCheckProcessesClass(this);
             Utils.sleep(2);
             // Execute command ps, that will return all the processes that running on the device.
             String result = Utils.executeCommand("ps");

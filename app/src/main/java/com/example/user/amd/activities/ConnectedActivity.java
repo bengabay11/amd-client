@@ -28,6 +28,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.example.user.amd.Config;
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
 import com.example.user.amd.handlers.ButtonVisibilityHandler;
@@ -90,8 +91,8 @@ public class ConnectedActivity extends AppCompatActivity
         setContentView(R.layout.activity_connected);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra(SocketTask.USERNAME_KEY);
-        socketTask = MainActivity.socketTask;
+        username = intent.getStringExtra(Config.USERNAME_KEY);
+        socketTask = (SocketTask) intent.getSerializableExtra(Config.SOCKET_TASk_KEY);
 
         textViewWelcomeUser = (TextView) findViewById(R.id.hello_user_text);
         textViewTitle = (TextView) findViewById(R.id.Title);
@@ -311,8 +312,8 @@ public class ConnectedActivity extends AppCompatActivity
         // Unknown Sources check
         UnknownSources un1 = new UnknownSources(this, socketTask);
         Thread UnknownSourcesThread = new Thread(un1);
-        if(socketTask != null)
-            socketTask.getUnknownSourcesClass(un1);
+//        if(socketTask != null)
+//            socketTask.getUnknownSourcesClass(un1);
         UnknownSourcesThread.start();
 
         // Check suspicious sms

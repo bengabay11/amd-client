@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Config;
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
 import com.example.user.amd.handlers.ButtonVisibilityHandler;
@@ -39,7 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        socketTask = MainActivity.socketTask;
+        Intent intent = getIntent();
+        socketTask = (SocketTask) intent.getSerializableExtra(Config.SOCKET_TASk_KEY);
         socketTask.setBuilder(SignUpActivity.this);
         editTextUsername = (EditText)findViewById(R.id.edit_text_username_sign_up);
         editTextPassword = (EditText)findViewById(R.id.edit_text_password_sign_up);
