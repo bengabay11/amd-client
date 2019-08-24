@@ -32,7 +32,7 @@ public class EmptyTextWatcher implements TextWatcher {
             }
             else {
                 button.setEnabled(true);
-                button.setTextColor(Color.parseColor(String.valueOf(Color.WHITE)));
+                button.setTextColor(Color.WHITE);
             }
         }
     }

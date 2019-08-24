@@ -41,8 +41,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         Intent intent = getIntent();
-        socketTask = (SocketTask) intent.getSerializableExtra(Config.SOCKET_TASk_KEY);
-        socketTask.setBuilder(SignUpActivity.this);
         editTextUsername = (EditText)findViewById(R.id.edit_text_username_sign_up);
         editTextPassword = (EditText)findViewById(R.id.edit_text_password_sign_up);
         editTextConfirmPassword = (EditText)findViewById(R.id.edit_text_confirm_password_sign_up);
@@ -101,7 +99,8 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else
         {
-            socketTask.send("SignUpActivity," + username + "," + password + "," + email);
+            this.socketTask = Utils.runSocketTask(this);
+            this.socketTask.send("SignUpActivity," + username + "," + password + "," + email);
         }
     }
 

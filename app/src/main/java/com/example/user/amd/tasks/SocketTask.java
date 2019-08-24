@@ -13,7 +13,6 @@ import com.example.user.amd.Utils;
 import com.example.user.amd.enums.ServerDataType;
 import com.example.user.amd.interfaces.IServerDataHandler;
 import com.example.user.amd.activities.ConnectedActivity;
-import com.example.user.amd.activities.MainActivity;
 import com.example.user.amd.encryption.AESICipher;
 
 import java.io.IOException;
@@ -42,10 +41,10 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
 
     public ConnectedActivity connected_activity;
 
-    public SocketTask(MainActivity activity, Dictionary<ServerDataType,
+    public SocketTask(Activity currentActivity, Dictionary<ServerDataType,
             IServerDataHandler> serverDataHandlers)
     {
-        currentActivity = activity;
+        this.currentActivity = currentActivity;
         this.serverDataHandlers = serverDataHandlers;
         listNotifications = new ArrayList();
     }
@@ -166,7 +165,7 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
             String title = "Connection Error";
             String body = "The AMD server is not available at this time. Please try again later.";
             AlertDialog.Builder builder = Utils.CreateDialog(title, body, currentActivity);
-            builder.setPositiveButton("OK", (dialog, id) -> System.exit(0));
+            builder.setPositiveButton("OK", (dialog, id) -> {});
             builder.show();
             socketError = false;
         }

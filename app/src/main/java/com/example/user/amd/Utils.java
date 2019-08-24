@@ -8,10 +8,15 @@ import android.util.Log;
 import android.view.Display;
 
 import com.example.user.amd.activities.ConnectedActivity;
+import com.example.user.amd.activities.MainActivity;
+import com.example.user.amd.enums.ServerDataType;
+import com.example.user.amd.interfaces.IServerDataHandler;
+import com.example.user.amd.tasks.SocketTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Dictionary;
 import java.util.concurrent.TimeUnit;
 
 
@@ -51,6 +56,15 @@ public class Utils {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static SocketTask runSocketTask(Activity currentActivity)
+    {
+        // TODO: add init for the server data handlers
+        Dictionary<ServerDataType, IServerDataHandler> serverDataHandlers = null;
+        SocketTask socketTask = new SocketTask(currentActivity, serverDataHandlers);
+        socketTask.execute();
+        return socketTask;
     }
 
     public static int[] getScreenSize(Activity activity){
