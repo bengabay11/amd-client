@@ -1,7 +1,6 @@
 package com.example.user.amd.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -21,7 +20,7 @@ import java.util.List;
 
 
 public class CreatePasswordActivity extends AppCompatActivity {
-    SocketTask socketTask;
+    private SocketTask socketTask;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
     private Button createPasswordButton;
