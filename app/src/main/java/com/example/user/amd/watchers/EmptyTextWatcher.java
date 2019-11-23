@@ -1,10 +1,11 @@
 package com.example.user.amd.watchers;
 
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.user.amd.Utils;
 
 import java.util.List;
 
@@ -25,14 +26,12 @@ public class EmptyTextWatcher implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         for (EditText editText: editTexts) {
             String editTextValue = editText.getText().toString();
-            if (editTextValue.isEmpty()) {
-                button.setEnabled(false);
-                button.setTextColor(Color.parseColor("#808080"));
-                break;
+            if (editTextValue.isEmpty())
+            {
+                Utils.disableButton(button);
             }
             else {
-                button.setEnabled(true);
-                button.setTextColor(Color.WHITE);
+                Utils.enableButton(button);
             }
         }
     }
