@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.user.amd.Config;
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
 import com.example.user.amd.handlers.ButtonVisibilityHandler;
@@ -23,8 +22,6 @@ import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private SocketTask socketTask;
-    private static String username;
     private EditText editTextUsername;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
@@ -35,12 +32,13 @@ public class SignUpActivity extends AppCompatActivity {
     private Button crossXButtonConfirmPassword;
     private Button crossXButtonEmail;
 
+    private static String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        Intent intent = getIntent();
         editTextUsername = (EditText)findViewById(R.id.edit_text_username_sign_up);
         editTextPassword = (EditText)findViewById(R.id.edit_text_password_sign_up);
         editTextConfirmPassword = (EditText)findViewById(R.id.edit_text_confirm_password_sign_up);
@@ -78,10 +76,8 @@ public class SignUpActivity extends AppCompatActivity {
         editTextEmail.setOnFocusChangeListener(buttonVisibilityHandlerEmail::handleFocus);
     }
 
-    @Override
-    public void onBackPressed() {}
-
-    public static String getUsername() {
+    public static String getUsername()
+    {
         return username;
     }
 
@@ -99,24 +95,28 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else
         {
-            this.socketTask = Utils.runSocketTask(this);
-            this.socketTask.send("SignUpActivity," + username + "," + password + "," + email);
+            SocketTask socketTask = Utils.runSocketTask(this);
+            socketTask.send("SignUpActivity," + username + "," + password + "," + email);
         }
     }
 
-    public void resetUsernameText(View view) {
+    public void resetUsernameText(View view)
+    {
         editTextUsername.setText("");
     }
 
-    public void resetPasswordText(View view) {
+    public void resetPasswordText(View view)
+    {
         editTextPassword.setText("");
     }
 
-    public void resetConfirmPasswordText(View view) {
+    public void resetConfirmPasswordText(View view)
+    {
         editTextConfirmPassword.setText("");
     }
 
-    public void resetEmailText(View view) {
+    public void resetEmailText(View view)
+    {
         editTextEmail.setText("");
     }
 
