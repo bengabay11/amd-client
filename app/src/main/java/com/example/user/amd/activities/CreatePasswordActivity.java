@@ -47,12 +47,10 @@ public class CreatePasswordActivity extends AppCompatActivity {
     public void initUI()
     {
         Utils.disableButton(createPasswordButton);
-
         List<EditText> editTexts = Arrays.asList(editTextPassword, editTextConfirmPassword);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, createPasswordButton);
         editTextPassword.addTextChangedListener(emptyTextWatcher);
         editTextConfirmPassword.addTextChangedListener(emptyTextWatcher);
-
         ButtonVisibilityHandler passwordButtonVisibilityHandler = new ButtonVisibilityHandler(crossXButtonPassword);
         ButtonVisibilityHandler confirmPasswordButtonVisibilityHandler = new ButtonVisibilityHandler(crossXButtonConfirmPassword);
         editTextPassword.setOnFocusChangeListener(passwordButtonVisibilityHandler::handleFocus);
