@@ -42,7 +42,7 @@ public class Utils {
         }
     }
 
-    public static void CreateDialog(String title, String body, Activity activity)
+    public static void showMessageBox(String title, String body, Activity activity)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
@@ -97,15 +97,10 @@ public class Utils {
         return socketTask;
     }
 
-    public static int[] getScreenSize(Activity activity){
+    public static Point getScreenSize(Activity activity){
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        int[] screenSizeArr = new int[2];
-        screenSizeArr[0] = width;
-        screenSizeArr[1] = height;
-        return screenSizeArr;
+        return size;
     }
 }
