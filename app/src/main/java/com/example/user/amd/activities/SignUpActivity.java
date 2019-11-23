@@ -1,8 +1,5 @@
 package com.example.user.amd.activities;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -48,7 +45,6 @@ public class SignUpActivity extends AppCompatActivity {
         crossXButtonPassword = (Button)findViewById((R.id.cross_x_button2));
         crossXButtonConfirmPassword = (Button)findViewById((R.id.cross_x_button3));
         crossXButtonEmail = (Button)findViewById((R.id.cross_x_button4));
-
         initUI();
     }
 

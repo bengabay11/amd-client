@@ -21,8 +21,6 @@ public class LoadingActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         socketTask = (SocketTask) intent.getSerializableExtra(Config.SOCKET_TASk_KEY);
-        socketTask.setBuilder(LoadingActivity.this);
-
         Apps sa1 = new Apps(getPackageManager(), socketTask);
         Thread suspiciousAppsThread = new Thread(sa1);
         suspiciousAppsThread.start();

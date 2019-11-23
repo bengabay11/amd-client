@@ -39,7 +39,6 @@ public class CreatePasswordActivity extends AppCompatActivity {
         createPasswordButton = (Button) findViewById(R.id.change_password_button);
         crossXButtonPassword = (Button) findViewById(R.id.cross_x_button_new_password);
         crossXButtonConfirmPassword = (Button) findViewById(R.id.cross_x_button_confirm_password);
-
         initUI();
     }
 

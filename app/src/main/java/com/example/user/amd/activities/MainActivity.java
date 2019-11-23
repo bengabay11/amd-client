@@ -1,7 +1,6 @@
 package com.example.user.amd.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         editTextUsername = (EditText) findViewById(R.id.edit_text_username);
         editTextPassword = (EditText) findViewById(R.id.edit_text_password);
         loginButton = (Button) findViewById((R.id.login_button));

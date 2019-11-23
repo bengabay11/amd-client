@@ -34,12 +34,10 @@ public class ForgotPasswordActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         String username = intent.getStringExtra(Config.USERNAME_KEY);
-
         editTextUsername = (EditText)findViewById(R.id.edit_text_username);
         editTextUsername.setText(username);
         crossXButtonUsername = (Button)findViewById(R.id.cross_x_button1);
         findPasswordButton = (Button)findViewById((R.id.lets_get_your_password_button));
-
         initUI();
     }
 
@@ -49,12 +47,11 @@ public class ForgotPasswordActivity extends AppCompatActivity
         {
             Utils.disableButton(findPasswordButton);
         }
-
         List<EditText> editTexts = Collections.singletonList(editTextUsername);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, findPasswordButton);
         editTextUsername.addTextChangedListener(emptyTextWatcher);
-
-        ButtonVisibilityHandler buttonVisibilityHandler = new ButtonVisibilityHandler(crossXButtonUsername);
+        ButtonVisibilityHandler buttonVisibilityHandler =
+                new ButtonVisibilityHandler(crossXButtonUsername);
         editTextUsername.setOnFocusChangeListener(buttonVisibilityHandler::handleFocus);
     }
 
