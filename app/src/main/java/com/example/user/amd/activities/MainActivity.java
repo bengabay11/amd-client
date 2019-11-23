@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI()
     {
-        loginButton.setEnabled(false);
-        loginButton.setTextColor(Color.parseColor(Config.GRAY));
+        Utils.disableButton(loginButton);
         List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, loginButton);
         editTextUsername.addTextChangedListener(emptyTextWatcher);

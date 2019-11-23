@@ -39,6 +39,7 @@ import com.example.user.amd.scanners.OsVersion;
 import com.example.user.amd.tasks.SocketTask;
 import com.example.user.amd.watchers.EmptyTextWatcher;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -126,7 +127,7 @@ public class ConnectedActivity extends AppCompatActivity
         helpText = (TextView) findViewById(R.id.help_text);
 
         initUI();
-        startDetects();
+        startScans();
     }
 
     private void initBottomNavigation() {
@@ -239,14 +240,9 @@ public class ConnectedActivity extends AppCompatActivity
             }
         });
 
-        // TODO: check if it can be done from the xml file
-        newUsernameButton.setEnabled(false);
-        newUsernameButton.setTextColor(Color.parseColor("#808080"));
-        newPasswordButton.setEnabled(false);
-        newPasswordButton.setTextColor(Color.parseColor("#808080"));
-        newEmailButton.setEnabled(false);
-        newEmailButton.setTextColor(Color.parseColor("#808080"));
-
+        Utils.disableButton(newUsernameButton);
+        Utils.disableButton(newPasswordButton);
+        Utils.disableButton(newEmailButton);
         List<EditText> newUsernameEditTexts = Collections.singletonList(editTextNewUsername);
         List<EditText> newPasswordEditTexts = Arrays.asList(editTextOldPassword,
                 editTextNewPassword, editTextConfirmPassword);
@@ -290,42 +286,25 @@ public class ConnectedActivity extends AppCompatActivity
         }
     }
 
-    // The function starts the detects.
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void startDetects() {
-        try{
-            socketTask.setBuilder(ConnectedActivity.this);
-            socketTask.setContextConnected(this);
+    public void startScans() {
+        OsVersion osVersionScan = new OsVersion(socketTask);
+        Processes processesScan = new Processes(socketTask);
+        UnknownSources unknownSourcesScan = new UnknownSources(this, socketTask);
+        Smishing smishingScan = new Smishing(socketTask, ConnectedActivity.this);
+        List<Thread> scanThreads = new ArrayList<Thread>(){{
+            new Thread(osVersionScan);
+            new Thread(processesScan);
+            new Thread(unknownSourcesScan);
+            new Thread(smishingScan);
+        }};
+        for(Thread scanThread: scanThreads)
+        {
+            scanThread.start();
         }
-        catch (Exception ignored){}
-
-        // OS version check
-        OsVersion os1 = new OsVersion(socketTask);
-        Thread osReportThread = new Thread(os1);
-        osReportThread.start();
-
-        // Check Processes
-        Processes chp = new Processes(socketTask);
-        Thread checkProcessesThread = new Thread(chp);
-        checkProcessesThread.start();
-
-        // Unknown Sources check
-        UnknownSources un1 = new UnknownSources(this, socketTask);
-        Thread UnknownSourcesThread = new Thread(un1);
-//        if(socketTask != null)
-//            socketTask.getUnknownSourcesClass(un1);
-        UnknownSourcesThread.start();
-
-        // Check suspicious sms
-//        sm1 = new Smishing(socketTask, ConnectedActivity.this);
-//        Thread smishingDetectThread = new Thread(sm1);
-//        smishingDetectThread.start();
-
-        // Check if camera opened
         cameraOn();
     }
 
-    // The function checks if the camera was opened.
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void cameraOn()
     {
@@ -352,7 +331,7 @@ public class ConnectedActivity extends AppCompatActivity
                     String currentTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format
                             (Calendar.getInstance().getTime());
                     socketTask.send("CameraOn," + currentTime);
-                    addNotification((View)null, "Camera opened at " + currentTime);
+                    addNotification(null, "Camera opened at " + currentTime);
                 }
             }, mHandler);
         }

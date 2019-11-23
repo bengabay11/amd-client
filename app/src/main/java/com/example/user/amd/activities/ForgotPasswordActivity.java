@@ -1,7 +1,6 @@
 package com.example.user.amd.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -46,11 +45,9 @@ public class ForgotPasswordActivity extends AppCompatActivity
 
     private void initUI()
     {
-        // TODO: check if there is a way to do it in the xml file
         if (editTextUsername.getText().toString().isEmpty())
         {
-            findPasswordButton.setEnabled(false);
-            findPasswordButton.setTextColor(Color.parseColor(Config.GRAY));
+            Utils.disableButton(findPasswordButton);
         }
 
         List<EditText> editTexts = Collections.singletonList(editTextUsername);

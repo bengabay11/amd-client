@@ -54,9 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void initUI()
     {
-        signUpButton.setEnabled(false);
-        signUpButton.setTextColor(Color.parseColor(Config.GRAY));
-
+        Utils.disableButton(signUpButton);
         List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword,
                 editTextConfirmPassword, editTextEmail);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, signUpButton);
