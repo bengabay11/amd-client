@@ -1,6 +1,7 @@
 package com.example.user.amd.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -55,9 +56,6 @@ public class CreatePasswordActivity extends AppCompatActivity {
         editTextConfirmPassword.setOnFocusChangeListener(confirmPasswordButtonVisibilityHandler::handleFocus);
     }
 
-    @Override
-    public void onBackPressed() {}
-
     public void onChangePassword(View view){
         String newPassword = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
@@ -68,9 +66,12 @@ public class CreatePasswordActivity extends AppCompatActivity {
         else
         {
             editTextConfirmPassword.setText(Config.EMPTY_STRING);
-            String title = "Invalid Password Confirmation";
-            String body = "You have confirmed the password incorrectly. please try again.";
-            Utils.showAlertDialog(title, body, CreatePasswordActivity.this);
+            Resources resource = CreatePasswordActivity.this.getResources();
+            Utils.showAlertDialog(
+                    resource.getString(R.string.invalid_password_confirmation_title),
+                    resource.getString(R.string.invalid_password_confirmation_body),
+                    CreatePasswordActivity.this
+            );
         }
     }
 

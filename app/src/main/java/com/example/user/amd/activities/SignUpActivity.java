@@ -1,5 +1,6 @@
 package com.example.user.amd.activities;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -89,12 +90,10 @@ public class SignUpActivity extends AppCompatActivity {
         else
         {
             editTextConfirmPassword.setText(Config.EMPTY_STRING);
-            String invalidPasswordConfirmationTitle = "Invalid Password Confirmation";
-            String invalidPasswordConfirmationBody = "You have " +
-                    "confirmed the password incorrectly. please try again.";
+            Resources resource = SignUpActivity.this.getResources();
             Utils.showAlertDialog(
-                    invalidPasswordConfirmationTitle,
-                    invalidPasswordConfirmationBody,
+                    resource.getString(R.string.invalid_password_confirmation_title),
+                    resource.getString(R.string.invalid_password_confirmation_body),
                     SignUpActivity.this
             );
         }
