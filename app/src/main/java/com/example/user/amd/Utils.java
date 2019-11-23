@@ -1,9 +1,13 @@
 package com.example.user.amd;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.AlertDialog;
 import android.view.Display;
+import android.widget.Button;
 
 import com.example.user.amd.enums.ServerDataType;
 import com.example.user.amd.interfaces.IServerDataHandler;
@@ -92,9 +96,21 @@ public class Utils {
             put(ServerDataType.UsernameDoesntExist, new UsernameDoesntExistHandler());
             put(ServerDataType.UsernameExist, new UsernameExistHandler());
         }};
-        SocketTask socketTask = new SocketTask(currentActivity, serverDataHandlers);
+        SocketTask socketTask = new SocketTask(serverDataHandlers);
         socketTask.execute();
         return socketTask;
+    }
+
+    public static void disableButton(Button button)
+    {
+        button.setTextColor(Color.parseColor(Config.GRAY));
+        button.setEnabled(false);
+    }
+
+    public static void enableButton(Button button)
+    {
+        button.setEnabled(true);
+        button.setTextColor(Color.WHITE);
     }
 
     public static Point getScreenSize(Activity activity){
