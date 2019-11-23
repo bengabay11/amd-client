@@ -13,7 +13,6 @@ public class UsernameDoesntExistHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Username Does'nt Exist";
         String body = "There is no user that has this username or email. please try again.";
-        AlertDialog.Builder builder = Utils.CreateDialog(title, body, currentActivity);
-        builder.show();
+        Utils.CreateDialog(title, body, currentActivity);
     }
 }

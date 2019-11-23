@@ -13,8 +13,6 @@ public class EmailChangedHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Successfully Changed Email";
         String body = "The AMD server has saved the new email.";
-        AlertDialog.Builder builder = Utils.CreateDialog(title, body, currentActivity);
-        builder.setPositiveButton("OK", (dialog, id) -> socketTask.connected_activity.backSettings(null));
-        builder.show();
+        Utils.CreateDialog(title, body, currentActivity);
     }
 }

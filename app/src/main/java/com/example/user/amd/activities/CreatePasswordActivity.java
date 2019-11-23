@@ -71,9 +71,8 @@ public class CreatePasswordActivity extends AppCompatActivity {
         if(!newPassword.equals(confirmPassword))
         {
             editTextConfirmPassword.setText("");
-            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
+            Utils.CreateDialog("Invalid Password Confirmation", "You" +
                     " have confirmed the password incorrectly. please try again.", CreatePasswordActivity.this);
-            builder.show();
         }
         else
         {

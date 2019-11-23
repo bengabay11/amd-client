@@ -35,13 +35,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         editTextUsername = (EditText) findViewById(R.id.edit_text_username);
         editTextPassword = (EditText) findViewById(R.id.edit_text_password);
         loginButton = (Button) findViewById((R.id.login_button));
         crossXButtonUsername = (Button) findViewById((R.id.cross_x_button1));
         crossXButtonPassword = (Button) findViewById((R.id.cross_x_button2));
-
         initUI();
     }
 

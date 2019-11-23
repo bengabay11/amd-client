@@ -25,7 +25,7 @@ public class UnknownSources implements Runnable
         boolean runOnce = true;
         boolean isNonPlayAppAllowed = false;
         String notification = "Unknown sources permission is allowed in settings.";
-        final AlertDialog.Builder builder = Utils.CreateDialog("Unknown Sources",
+        Utils.CreateDialog("Unknown Sources",
                 "Unknown sources permission is allowed in your settings. turn it off.", currentActivity);
 
         while(!finish)
@@ -44,9 +44,7 @@ public class UnknownSources implements Runnable
                 // Show dialog
                 currentActivity.runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                    builder.show();
-                    }
+                    public void run() { }
                 });
                 if(runOnce){
                     // Update the UI with the new notification.

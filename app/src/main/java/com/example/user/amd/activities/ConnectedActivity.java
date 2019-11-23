@@ -347,11 +347,8 @@ public class ConnectedActivity extends AppCompatActivity
                 @Override
                 public void onCameraUnavailable(@NonNull String cameraId) {
                     super.onCameraUnavailable(cameraId);
-                    AlertDialog.Builder builder = Utils.CreateDialog("Camera On", "You are not allowed to" +
+                    Utils.CreateDialog("Camera On", "You are not allowed to" +
                             " open the camera.", ConnectedActivity.this);
-                    if(!builder.create().isShowing()){
-                        builder.show();
-                    }
                     String currentTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format
                             (Calendar.getInstance().getTime());
                     socketTask.send("CameraOn," + currentTime);
@@ -402,9 +399,8 @@ public class ConnectedActivity extends AppCompatActivity
         newUsername = editTextNewUsername.getText().toString();
         if (newUsername.contains(",")){
             editTextNewUsername.setText("");
-            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Username", "You should not enter the" +
+            Utils.CreateDialog("Invalid Username", "You should not enter the" +
                     " username with the letter: ,", ConnectedActivity.this);
-            builder.show();
         }
         else
         {
@@ -446,9 +442,8 @@ public class ConnectedActivity extends AppCompatActivity
         if(!newPassword.equals(confirmPassword))
         {
             editTextConfirmPassword.setText("");
-            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You" +
+            Utils.CreateDialog("Invalid Password Confirmation", "You" +
                     " have confirmed the password incorrectly. please try again.", ConnectedActivity.this);
-            builder.show();
         }
         else
         {
@@ -477,9 +472,8 @@ public class ConnectedActivity extends AppCompatActivity
         String newEmail = editTextNewEmail.getText().toString();
         if (newEmail.contains(",")){
             editTextNewEmail.setText("");
-            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Email", "You should not enter the" +
+            Utils.CreateDialog("Invalid Email", "You should not enter the" +
                     " email with the letter: ,", ConnectedActivity.this);
-            builder.show();
         }
         else {
             socketTask.send("ChangeEmail," + newEmail);

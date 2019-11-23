@@ -6,6 +6,11 @@ import java.util.Collections;
 
 public class Config
 {
+    public static final String EMPTY_STRING = "";
+    public static final String DEADULT_DIALOG_POSITIVE_BUTTON_TEXT = "OK";
+
+    public static final String GRAY = "#808080";
+
     public static String sendDelimiter = TextUtils.join("", Collections.nCopies(3, Character.toString ((char) 31)));
     public static String receiveDelimiter = Character.toString ((char) 30);
 

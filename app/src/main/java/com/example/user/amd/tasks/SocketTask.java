@@ -27,6 +27,8 @@ import java.util.Dictionary;
 
 
 public class SocketTask extends AsyncTask<String,String ,String> implements Serializable {
+    private InputStream inputStream;
+    private PrintWriter writer;
     private String dataToSend = "";
     private String response = "";
     private String encryptedSerializedServerData;
@@ -121,26 +123,38 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
         return new ServerData(ServerDataType.EmailChanged, response);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    protected String doInBackground(String... voids)
-    {
-        try
-        {
-            Socket s = new Socket();
-            s.connect(new InetSocketAddress(Config.SERVER_IP, Config.SERVER_PORT), 3*1000);
-            PrintWriter writer = new PrintWriter(s.getOutputStream());
-            InputStream inputStream = s.getInputStream();
+    private void connectionError() {
+        finish = true;
+        String title = "Connection Error";
+        String body = "The AMD server is not available at this time. Please try again later.";
+        Utils.CreateDialog(title, body, currentActivity);
+    }
 
-            this.receiveAESKey(inputStream);
-            this.startCommunicationThreads(writer, inputStream);
+    @Override
+    public void onPreExecute() {
+        try {
+            Socket s = new Socket();
+            s.connect(new InetSocketAddress(Config.SERVER_IP, Config.SERVER_PORT), 3000);
+            this.writer = new PrintWriter(s.getOutputStream());
+            this.inputStream = s.getInputStream();
         }
         catch (IOException e)
         {
+           this.connectionError();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected String doInBackground(String... voids) {
+        try {
+            this.receiveAESKey(this.inputStream);
+            this.startCommunicationThreads(this.writer, this.inputStream);
             socketError = true;
             publishProgress();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
         return null;
     }
 
@@ -161,13 +175,7 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
             }
         }
         else {
-            finish = true;
-            String title = "Connection Error";
-            String body = "The AMD server is not available at this time. Please try again later.";
-            AlertDialog.Builder builder = Utils.CreateDialog(title, body, currentActivity);
-            builder.setPositiveButton("OK", (dialog, id) -> {});
-            builder.show();
-            socketError = false;
+            this.connectionError();
         }
     }
 

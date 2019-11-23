@@ -29,13 +29,13 @@ public class Utils {
         }
     }
 
-    public static AlertDialog.Builder CreateDialog(String title, String body, Activity activity) {
+    public static void CreateDialog(String title, String body, Activity activity)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
         builder.setMessage(body);
-        builder.setPositiveButton("OK", (dialog, id) -> {
-        });
-        return builder;
+        builder.setPositiveButton(Config.DEADULT_DIALOG_POSITIVE_BUTTON_TEXT, (dialog, id) -> {});
+        builder.show();
     }
 
     public static String executeCommand(String command) {

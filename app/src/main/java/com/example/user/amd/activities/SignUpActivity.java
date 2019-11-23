@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void initUI()
     {
         signUpButton.setEnabled(false);
-        signUpButton.setTextColor(Color.parseColor(Config.Gray));
+        signUpButton.setTextColor(Color.parseColor(Config.GRAY));
 
         List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword,
                 editTextConfirmPassword, editTextEmail);
@@ -98,12 +98,11 @@ public class SignUpActivity extends AppCompatActivity {
         else
         {
             editTextConfirmPassword.setText(Config.EMPTY_STRING);
-            AlertDialog.Builder builder = Utils.CreateDialog(
+            Utils.CreateDialog(
                     this.invalidPasswordConfirmationTitle,
                     this.invalidPasswordConfirmationBody,
                     SignUpActivity.this
             );
-            builder.show();
         }
     }
 

@@ -16,12 +16,9 @@ public class EmailSentHandler implements IServerDataHandler {
         String title = "Email Sent";
         String body = "Your password sent to your email. if you don't get anything, " +
                 "send the request again.";
-        AlertDialog.Builder builder = Utils.CreateDialog(title, body, currentActivity);
-        builder.setPositiveButton("OK", (dialog, id) -> {
-            Intent i = new Intent(currentActivity, MainActivity.class);
-            i.putExtra("activity", "ForgotPasswordActivity");
-            currentActivity.startActivity(i);
-        });
-        builder.show();
+        Utils.CreateDialog(title, body, currentActivity);
+        Intent i = new Intent(currentActivity, MainActivity.class);
+        i.putExtra("activity", "ForgotPasswordActivity");
+        currentActivity.startActivity(i);
     }
 }
