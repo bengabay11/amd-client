@@ -2,7 +2,6 @@ package com.example.user.amd.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -47,9 +46,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
 
     public void initUI()
     {
-        // TODO: check if there is a way to do it in the xml file
-        createPasswordButton.setTextColor(Color.parseColor(Config.GRAY));
-        createPasswordButton.setEnabled(false);
+        Utils.disableButton(createPasswordButton);
 
         List<EditText> editTexts = Arrays.asList(editTextPassword, editTextConfirmPassword);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, createPasswordButton);
