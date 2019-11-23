@@ -10,7 +10,9 @@
     <string name="forgot_password_button">Forgot Password?</string>
     <string name="edit_text_email">Email</string>
     <string name="lets_find_your_account">Lets find your account</string>
-    <string name="instruction">Enter your username or email and we\'ll send a temporary password to your email.</string>
+    <string name="instruction">
+        Enter your username or email and we\'ll send a temporary password to your email.
+    </string>
     <string name="get_your_password">Get Your Password!</string>
     <string name="join_amd">Join AMD</string>
     <string name="create_amd_account">Create AMD Account!</string>
@@ -24,6 +26,12 @@
     <string name="change_password">Change Password</string>
     <string name="delete_user">Delete User</string>
     <string name="log_out">Log Out</string>
+    <string name="invalid_password_confirmation_title">
+        Invalid Password Confirmation
+    </string>
+    <string name="invalid_password_confirmation_body">
+        You have confirmed the password incorrectly. please try again.
+    </string>
     <string name="back_to_settings">Back To Settings</string>
     <string name="help_message">All rights reserved to Ben Gabay.\nRelease Date: 12/3/2018\n\n\n
         Android Malwares Detector(AMD), is detecting malwares on your Android device. You have
@@ -36,6 +44,7 @@
         the device.\n- Check all SMS received.\n- If you have used the camera services, because
         you are not allowed to.\n- If there are settings that are enabled on your device and
         may endanger it.\n- The OS version of the Android device.\n\nFor more questions:
-        ben.gabay38@gmail.com</string>
+        ben.gabay38@gmail.com
+    </string>
 
 </resources>
