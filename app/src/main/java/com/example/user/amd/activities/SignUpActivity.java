@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.user.amd.Config;
 import com.example.user.amd.Utils;
 import com.example.user.amd.R;
 import com.example.user.amd.handlers.ButtonVisibilityHandler;
@@ -21,7 +22,6 @@ import java.util.List;
 
 
 public class SignUpActivity extends AppCompatActivity {
-
     private EditText editTextUsername;
     private EditText editTextPassword;
     private EditText editTextConfirmPassword;
@@ -31,6 +31,9 @@ public class SignUpActivity extends AppCompatActivity {
     private Button crossXButtonPassword;
     private Button crossXButtonConfirmPassword;
     private Button crossXButtonEmail;
+    private final String invalidPasswordConfirmationTitle = "Invalid Password Confirmation";
+    private final String invalidPasswordConfirmationBody = "You have " +
+            "confirmed the password incorrectly. please try again.";
 
     private static String username;
 
@@ -55,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void initUI()
     {
         signUpButton.setEnabled(false);
-        signUpButton.setTextColor(Color.parseColor("#808080"));
+        signUpButton.setTextColor(Color.parseColor(Config.Gray));
 
         List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword,
                 editTextConfirmPassword, editTextEmail);
@@ -87,43 +90,45 @@ public class SignUpActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
         String email = editTextEmail.getText().toString();
-        if (!password.equals(confirmPassword)) {
-            editTextConfirmPassword.setText("");
-            AlertDialog.Builder builder = Utils.CreateDialog("Invalid Password Confirmation", "You have " +
-                    "confirmed the password incorrectly. please try again.", SignUpActivity.this);
-            builder.show();
+        if (password.equals(confirmPassword)) {
+            SocketTask socketTask = Utils.runSocketTask(this);
+            String activityName = this.getClass().getSimpleName();
+            socketTask.send(activityName + "," + username + "," + password + "," + email);
         }
         else
         {
-            SocketTask socketTask = Utils.runSocketTask(this);
-            socketTask.send("SignUpActivity," + username + "," + password + "," + email);
+            editTextConfirmPassword.setText(Config.EMPTY_STRING);
+            AlertDialog.Builder builder = Utils.CreateDialog(
+                    this.invalidPasswordConfirmationTitle,
+                    this.invalidPasswordConfirmationBody,
+                    SignUpActivity.this
+            );
+            builder.show();
         }
     }
 
     public void resetUsernameText(View view)
     {
-        editTextUsername.setText("");
+        editTextUsername.setText(Config.EMPTY_STRING);
     }
 
     public void resetPasswordText(View view)
     {
-        editTextPassword.setText("");
+        editTextPassword.setText(Config.EMPTY_STRING);
     }
 
     public void resetConfirmPasswordText(View view)
     {
-        editTextConfirmPassword.setText("");
+        editTextConfirmPassword.setText(Config.EMPTY_STRING);
     }
 
     public void resetEmailText(View view)
     {
-        editTextEmail.setText("");
+        editTextEmail.setText(Config.EMPTY_STRING);
     }
 
     public void backLogin(View view)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("activity","SignUpActivity");
-        startActivity(intent);
+        this.onBackPressed();
     }
 }
