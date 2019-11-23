@@ -83,11 +83,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void resetUsernameText(View view) {
+    public void resetUsernameText(View view)
+    {
         editTextUsername.setText("");
     }
 
-    public void resetPasswordText(View view) {
+    public void resetPasswordText(View view)
+    {
         editTextPassword.setText("");
     }
 }
