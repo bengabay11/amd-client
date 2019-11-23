@@ -48,7 +48,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
     public void initUI()
     {
         // TODO: check if there is a way to do it in the xml file
-        createPasswordButton.setTextColor(Color.parseColor("#808080"));
+        createPasswordButton.setTextColor(Color.parseColor(Config.GRAY));
         createPasswordButton.setEnabled(false);
 
         List<EditText> editTexts = Arrays.asList(editTextPassword, editTextConfirmPassword);
@@ -68,23 +68,26 @@ public class CreatePasswordActivity extends AppCompatActivity {
     public void onChangePassword(View view){
         String newPassword = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
-        if(!newPassword.equals(confirmPassword))
-        {
-            editTextConfirmPassword.setText("");
-            Utils.showAlertDialog("Invalid Password Confirmation", "You" +
-                    " have confirmed the password incorrectly. please try again.", CreatePasswordActivity.this);
-        }
-        else
+        if(newPassword.equals(confirmPassword))
         {
             socketTask.send("ChangeTemporaryPassword," + newPassword);
         }
+        else
+        {
+            editTextConfirmPassword.setText(Config.EMPTY_STRING);
+            String title = "Invalid Password Confirmation";
+            String body = "You have confirmed the password incorrectly. please try again.";
+            Utils.showAlertDialog(title, body, CreatePasswordActivity.this);
+        }
     }
 
-    public void resetPasswordText(View view) {
-        editTextPassword.setText("");
+    public void resetPasswordText(View view)
+    {
+        editTextPassword.setText(Config.EMPTY_STRING);
     }
 
-    public void resetConfirmPasswordText(View view) {
-        editTextConfirmPassword.setText("");
+    public void resetConfirmPasswordText(View view)
+    {
+        editTextConfirmPassword.setText(Config.EMPTY_STRING);
     }
 }
