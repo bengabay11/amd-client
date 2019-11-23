@@ -16,6 +16,6 @@ public class FailedSendEmailHandler implements IServerDataHandler {
                 " couldn't send to the requested email. maybe the address " +
                 "does'nt exist or the server is not connected to the internet." +
                 " try again with a different username or email";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }

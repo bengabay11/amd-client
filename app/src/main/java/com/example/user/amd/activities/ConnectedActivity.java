@@ -347,7 +347,7 @@ public class ConnectedActivity extends AppCompatActivity
                 @Override
                 public void onCameraUnavailable(@NonNull String cameraId) {
                     super.onCameraUnavailable(cameraId);
-                    Utils.CreateDialog("Camera On", "You are not allowed to" +
+                    Utils.showAlertDialog("Camera On", "You are not allowed to" +
                             " open the camera.", ConnectedActivity.this);
                     String currentTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format
                             (Calendar.getInstance().getTime());
@@ -399,7 +399,7 @@ public class ConnectedActivity extends AppCompatActivity
         newUsername = editTextNewUsername.getText().toString();
         if (newUsername.contains(",")){
             editTextNewUsername.setText("");
-            Utils.CreateDialog("Invalid Username", "You should not enter the" +
+            Utils.showAlertDialog("Invalid Username", "You should not enter the" +
                     " username with the letter: ,", ConnectedActivity.this);
         }
         else
@@ -442,7 +442,7 @@ public class ConnectedActivity extends AppCompatActivity
         if(!newPassword.equals(confirmPassword))
         {
             editTextConfirmPassword.setText("");
-            Utils.CreateDialog("Invalid Password Confirmation", "You" +
+            Utils.showAlertDialog("Invalid Password Confirmation", "You" +
                     " have confirmed the password incorrectly. please try again.", ConnectedActivity.this);
         }
         else
@@ -472,7 +472,7 @@ public class ConnectedActivity extends AppCompatActivity
         String newEmail = editTextNewEmail.getText().toString();
         if (newEmail.contains(",")){
             editTextNewEmail.setText("");
-            Utils.CreateDialog("Invalid Email", "You should not enter the" +
+            Utils.showAlertDialog("Invalid Email", "You should not enter the" +
                     " email with the letter: ,", ConnectedActivity.this);
         }
         else {

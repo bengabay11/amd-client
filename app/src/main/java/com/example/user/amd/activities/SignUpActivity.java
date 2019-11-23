@@ -31,9 +31,6 @@ public class SignUpActivity extends AppCompatActivity {
     private Button crossXButtonPassword;
     private Button crossXButtonConfirmPassword;
     private Button crossXButtonEmail;
-    private final String invalidPasswordConfirmationTitle = "Invalid Password Confirmation";
-    private final String invalidPasswordConfirmationBody = "You have " +
-            "confirmed the password incorrectly. please try again.";
 
     private static String username;
 
@@ -98,9 +95,12 @@ public class SignUpActivity extends AppCompatActivity {
         else
         {
             editTextConfirmPassword.setText(Config.EMPTY_STRING);
-            Utils.CreateDialog(
-                    this.invalidPasswordConfirmationTitle,
-                    this.invalidPasswordConfirmationBody,
+            String invalidPasswordConfirmationTitle = "Invalid Password Confirmation";
+            String invalidPasswordConfirmationBody = "You have " +
+                    "confirmed the password incorrectly. please try again.";
+            Utils.showAlertDialog(
+                    invalidPasswordConfirmationTitle,
+                    invalidPasswordConfirmationBody,
                     SignUpActivity.this
             );
         }

@@ -13,6 +13,6 @@ public class IncorrectPasswordHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Incorrect Password";
         String body = "The The password you entered is incorrect. please try again.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }

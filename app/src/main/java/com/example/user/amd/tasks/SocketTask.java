@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.user.amd.Config;
@@ -24,6 +23,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Map;
 
 
 public class SocketTask extends AsyncTask<String,String ,String> implements Serializable {
@@ -39,12 +39,12 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
     private ArrayList listNotifications;
     private AESICipher aesCipher;
     private String AESKey;
-    private Dictionary<ServerDataType, IServerDataHandler> serverDataHandlers;
+    private Map<ServerDataType, IServerDataHandler> serverDataHandlers;
 
     public ConnectedActivity connected_activity;
 
-    public SocketTask(Activity currentActivity, Dictionary<ServerDataType,
-            IServerDataHandler> serverDataHandlers)
+    public SocketTask(Activity currentActivity, Map<ServerDataType,
+                IServerDataHandler> serverDataHandlers)
     {
         this.currentActivity = currentActivity;
         this.serverDataHandlers = serverDataHandlers;
@@ -54,7 +54,8 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
     private class WriteData implements Runnable {
         PrintWriter writer;
 
-        WriteData(PrintWriter writer) {
+        WriteData(PrintWriter writer)
+        {
             this.writer = writer;
         }
 
@@ -127,7 +128,7 @@ public class SocketTask extends AsyncTask<String,String ,String> implements Seri
         finish = true;
         String title = "Connection Error";
         String body = "The AMD server is not available at this time. Please try again later.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 
     @Override

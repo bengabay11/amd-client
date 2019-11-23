@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private void initUI()
     {
         loginButton.setEnabled(false);
-        loginButton.setTextColor(Color.parseColor("#808080"));
+        loginButton.setTextColor(Color.parseColor(Config.GRAY));
         List<EditText> editTexts = Arrays.asList(editTextUsername, editTextPassword);
         TextWatcher emptyTextWatcher = new EmptyTextWatcher(editTexts, loginButton);
         editTextUsername.addTextChangedListener(emptyTextWatcher);
@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetUsernameText(View view)
     {
-        editTextUsername.setText("");
+        editTextUsername.setText(Config.EMPTY_STRING);
     }
 
     public void resetPasswordText(View view)
     {
-        editTextPassword.setText("");
+        editTextPassword.setText(Config.EMPTY_STRING);
     }
 }

@@ -50,7 +50,7 @@ public class ForgotPasswordActivity extends AppCompatActivity
         if (editTextUsername.getText().toString().isEmpty())
         {
             findPasswordButton.setEnabled(false);
-            findPasswordButton.setTextColor(Color.parseColor("#808080"));
+            findPasswordButton.setTextColor(Color.parseColor(Config.GRAY));
         }
 
         List<EditText> editTexts = Collections.singletonList(editTextUsername);
@@ -61,21 +61,21 @@ public class ForgotPasswordActivity extends AppCompatActivity
         editTextUsername.setOnFocusChangeListener(buttonVisibilityHandler::handleFocus);
     }
 
-    public void resetUsernameText(View view) {
-        editTextUsername.setText("");
+    public void resetUsernameText(View view)
+    {
+        editTextUsername.setText(Config.EMPTY_STRING);
     }
 
     public void backLogin(View view)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("activity","ForgotPasswordActivity");
-        startActivity(intent);
+        this.onBackPressed();
     }
 
     public void OnForgotPassword(View view)
     {
         this.socketTask = Utils.runSocketTask(this);
         String usernameOrEmail = editTextUsername.getText().toString();
-        this.socketTask.send("ForgotPasswordActivity," + usernameOrEmail);
+        String activityName = this.getClass().getSimpleName();
+        this.socketTask.send(activityName + "," + usernameOrEmail);
     }
 }

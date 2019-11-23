@@ -13,6 +13,6 @@ public class InvalidEmailHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Invalid Email";
         String body = "You entered invalid email. try again.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }

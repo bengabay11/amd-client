@@ -42,7 +42,7 @@ public class Utils {
         }
     }
 
-    public static void showMessageBox(String title, String body, Activity activity)
+    public static void showAlertDialog(String title, String body, Activity activity)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);

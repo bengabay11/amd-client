@@ -25,7 +25,7 @@ public class UnknownSources implements Runnable
         boolean runOnce = true;
         boolean isNonPlayAppAllowed = false;
         String notification = "Unknown sources permission is allowed in settings.";
-        Utils.CreateDialog("Unknown Sources",
+        Utils.showAlertDialog("Unknown Sources",
                 "Unknown sources permission is allowed in your settings. turn it off.", currentActivity);
 
         while(!finish)

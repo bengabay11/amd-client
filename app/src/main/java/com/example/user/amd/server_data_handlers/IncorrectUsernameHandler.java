@@ -13,6 +13,6 @@ public class IncorrectUsernameHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Username Does'nt exist";
         String body = "The username you entered does'nt exist please try again.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }

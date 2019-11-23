@@ -13,6 +13,6 @@ public class PasswordChangedHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Successfully Changed Password";
         String body = "The AMD server has saved the new password.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }

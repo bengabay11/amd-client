@@ -1,7 +1,6 @@
 package com.example.user.amd.server_data_handlers;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 
 import com.example.user.amd.DTOs.ServerData;
 import com.example.user.amd.Utils;
@@ -13,6 +12,6 @@ public class UsernameDoesntExistHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Username Does'nt Exist";
         String body = "There is no user that has this username or email. please try again.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }

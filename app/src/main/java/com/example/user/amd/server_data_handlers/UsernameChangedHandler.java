@@ -13,7 +13,7 @@ import com.example.user.amd.tasks.SocketTask;
 public class UsernameChangedHandler implements IServerDataHandler {
     @Override
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
-        Utils.CreateDialog("Successfully " +
+        Utils.showAlertDialog("Successfully " +
                 "Changed Username", "The AMD server has saved the new username." +
                 " please try again.", currentActivity);
         ConnectedActivity.usernameChanged();

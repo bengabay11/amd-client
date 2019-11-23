@@ -12,6 +12,6 @@ public class UsernameExistHandler implements IServerDataHandler {
     public void handle(ServerData data, Activity currentActivity, SocketTask socketTask) {
         String title = "Username Already Exist";
         String body = "There is already AMD user with this username. please try again.";
-        Utils.CreateDialog(title, body, currentActivity);
+        Utils.showAlertDialog(title, body, currentActivity);
     }
 }
